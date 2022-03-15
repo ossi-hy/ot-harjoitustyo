@@ -1,0 +1,104 @@
+commit aead029d2c7764a045e858b8998e58ceec58350b
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:51:33 2022 +0200
+
+    paljon muutokisa
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 6f20eee5f59c1f2738e78ffc22e00b664c7d5c90
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:49:24 2022 +0200
+
+    uudet tiedostot
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 87e4c1c786f94a31b8fd9b5bc8e9a7699d5c4f58
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:44:48 2022 +0200
+
+    muutoksia
+
+ eka.txt    | 4 ++--
+ kolmas.txt | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 36f711e0ab6fed69e341d5575ccdf3716a72d1b4
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:43:26 2022 +0200
+
+    uudelleennimeäminnen
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit e90569a05adc3c18c5c67703d787abf5e0d70837
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:42:22 2022 +0200
+
+    poistettu toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 094db5a88f76e1128f17531288787fafb118421e
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:40:22 2022 +0200
+
+    tiedosto.txt muutoksia
+
+ tiedosto.txt | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+commit 86fcd04d1c43b0981fc810879609c93360718674
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:39:39 2022 +0200
+
+    tiedosto.txt lisätty tekstiä
+
+ tiedosto.txt | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+commit ae935773d3d7f0e12e52e924de73bc5e8b75b149
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:37:15 2022 +0200
+
+    muutoksia toiseen ja kolmanteen
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit f50e929ffd6bac226679bd24938b7b37f4a937ac
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:36:24 2022 +0200
+
+    kolmas lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 9dbf175843649c88acb1486aa6d4beb58cb43764
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:32:40 2022 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 9ce9665571a2c3a72d4118dea38ad5cabc1adf9d
+Author: Ossi <secret@email.com>
+Date:   Tue Mar 15 16:31:02 2022 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
