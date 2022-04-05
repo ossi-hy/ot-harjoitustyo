@@ -35,6 +35,7 @@ class Renderer:
                     (x + 1) * self.w / self._board.w,
                     (y + 1) * self.h / self._board.h,
                     outline="#000000",
-                    stipple="gray25",
                     fill=color
                 )
+        
+        self._window.update()

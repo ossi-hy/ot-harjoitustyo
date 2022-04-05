@@ -8,6 +8,7 @@ authors = ["Ossi <101654124+ossi-hy@users.noreply.github.com>"]
 python = "^3.8"
 numpy = "^1.22.3"
 invoke = "^1.7.0"
+keyboard = "^0.13.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
