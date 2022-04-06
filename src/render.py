@@ -2,6 +2,7 @@ import tkinter as tk
 
 from board import Board
 
+# Colors of the tetraminos
 COLORS = [
     (0, 0, 0),
     (180, 0, 255),
@@ -26,6 +27,11 @@ class Renderer:
     def draw(self) -> None:
         self._canvas.delete("all")
 
+        self._draw_board()
+
+        self._window.update()
+
+    def _draw_board(self) -> None:
         for y in range(self._board.h):
             for x in range(self._board.w):
                 color = "#{:02x}{:02x}{:02x}".format(*COLORS[self._board.board[y, x]])
@@ -35,7 +41,5 @@ class Renderer:
                     (x + 1) * self.w / self._board.w,
                     (y + 1) * self.h / self._board.h,
                     outline="#000000",
-                    fill=color
+                    fill=color,
                 )
-        
-        self._window.update()

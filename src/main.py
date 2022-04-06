@@ -6,6 +6,7 @@ import keyboard as kb
 import tkinter as tk
 import time
 
+
 def main():
     gameboard = Board()
 
@@ -21,10 +22,10 @@ def main():
         renderer.draw()
 
         frametime = time.perf_counter() - starttime
-        while frametime < 1/19:
+        while frametime < 1 / 19:
             frametime = time.perf_counter() - starttime
         starttime = time.perf_counter()
-    
+
 
 if __name__ == "__main__":
     main()
