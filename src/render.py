@@ -32,14 +32,14 @@ class Renderer:
         self._window.update()
 
     def _draw_board(self) -> None:
-        for col in range(self._board.h):
-            for row in range(self._board.w):
+        for col in range(self._board.height):
+            for row in range(self._board.width):
                 color = "#{:02x}{:02x}{:02x}".format(*COLORS[self._board.board[col, row]]) # pylint: disable=consider-using-f-string
                 self._canvas.create_rectangle(
-                    row * self.width / self._board.w,
-                    col * self.height / self._board.h,
-                    (row + 1) * self.width / self._board.w,
-                    (col + 1) * self.height / self._board.h,
+                    row * self.width / self._board.width,
+                    col * self.height / self._board.height,
+                    (row + 1) * self.width / self._board.width,
+                    (col + 1) * self.height / self._board.height,
                     outline="#000000",
                     fill=color,
                 )

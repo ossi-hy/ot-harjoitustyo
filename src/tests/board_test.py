@@ -11,6 +11,6 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(
             np.array_equal(
                 self.gameboard.board,
-                np.zeros((self.gameboard.h, self.gameboard.w), np.uint8),
+                np.zeros((self.gameboard.height, self.gameboard.width), np.uint8),
             )
         )
