@@ -1,10 +1,9 @@
+import tkinter as tk
+import time
+import keyboard as kb # type: ignore
 from board import Board
 from render import Renderer
 
-import keyboard as kb
-
-import tkinter as tk
-import time
 
 
 def main():

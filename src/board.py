@@ -5,3 +5,4 @@ class Board:
         self.w = width
         self.h = height
         self.board = np.zeros((self.h,self.w), dtype=np.uint8)
+        
