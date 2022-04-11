@@ -18,8 +18,8 @@ COLORS = [
 class Renderer:
     def __init__(self, window: tk.Tk, board: Board, width=300, height=600) -> None:
         self._window = window
-        self.w = width
-        self.h = height
+        self.w = width # pylint: disable=invalid-name
+        self.h = height # pylint: disable=invalid-name
         self._canvas = tk.Canvas(self._window, width=width, height=height)
         self._canvas.pack()
         self._board = board
@@ -32,9 +32,9 @@ class Renderer:
         self._window.update()
 
     def _draw_board(self) -> None:
-        for y in range(self._board.h):
-            for x in range(self._board.w):
-                color = "#{:02x}{:02x}{:02x}".format(*COLORS[self._board.board[y, x]])
+        for y in range(self._board.h): # pylint: disable=invalid-name
+            for x in range(self._board.w): # pylint: disable=invalid-name
+                color = "#{:02x}{:02x}{:02x}".format(*COLORS[self._board.board[y, x]]) # pylint: disable=consider-using-f-string
                 self._canvas.create_rectangle(
                     x * self.w / self._board.w,
                     y * self.h / self._board.h,
