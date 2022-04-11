@@ -16,7 +16,8 @@ SHAPES = [
 class Board:
     def __init__(self, width=10, height=20, seed: Optional[int]=None) -> None:
         self.width = width
-        self.height = height
+        self.height = height + 2
+        self.visible_height = height
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
         self.pool = PiecePool(seed)
@@ -74,13 +75,12 @@ class Board:
         elif dir == 1:
             self.piece_r += 1
 
+        # Perform wallkick
+
         shape, shape_left, shape_right = self._get_shape()
         if self.piece_x + shape_left < 0:
             self.piece_x += 1
-        print(self.piece_x, shape.shape[1], shape_right, self.width)
-        print("right side of the piece",self.piece_x + shape.shape[1] - shape_right)
         if self.piece_x + shape.shape[1] - shape_right > self.width:
-            print("WALLKICK TO LEFT")
             self.piece_x -= 1
 
     def step(self):
