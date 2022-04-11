@@ -72,13 +72,16 @@ class Board:
         """Rotate the currently falling piece
 
         Args:
-            dir (int): 0 means clockwise and 1 counterclockwise
+            dir (int): 0 means clockwise and 1 counterclockwise. 2 means rotate 180 degrees.
         """
 
         if dir == 0:
             self.piece_r -= 1
         elif dir == 1:
             self.piece_r += 1
+        elif dir == 2:
+            self.piece_r += 2
+
 
         # Perform wallkick
         shape, shape_left, shape_right, _ = self._get_shape()
