@@ -32,3 +32,9 @@ def coverage_report(ctx):
     else:
         raise Exception("Unsupported OS")
     
+@task
+def lint(ctx):
+    if OS == "Linux":
+        ctx.run("pylint src", pty=True)
+    elif OS == "Windows":
+        ctx.run("pylint src")
