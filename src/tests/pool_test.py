@@ -3,6 +3,7 @@ import random
 
 from pool import PiecePool
 
+
 class TestPiecePool(unittest.TestCase):
     def setUp(self) -> None:
         self.pool = PiecePool(0)

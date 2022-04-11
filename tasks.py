@@ -4,6 +4,7 @@ import platform
 
 OS = platform.system()
 
+
 @task
 def start(ctx):
     if OS == "Linux":
@@ -12,6 +13,7 @@ def start(ctx):
         ctx.run("python src/main.py")
     else:
         raise Exception("Unsupported OS")
+
 
 @task
 def test(ctx):
@@ -22,6 +24,7 @@ def test(ctx):
     else:
         raise Exception("Unsupported OS")
 
+
 @task(test)
 def coverage_report(ctx):
     if OS == "Linux":
@@ -30,7 +33,8 @@ def coverage_report(ctx):
         ctx.run("coverage html")
     else:
         raise Exception("Unsupported OS")
-    
+
+
 @task
 def lint(ctx):
     if OS == "Linux":

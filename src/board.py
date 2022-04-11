@@ -82,7 +82,6 @@ class Board:
         elif dir == 2:
             self.piece_r += 2
 
-
         # Perform wallkick
         shape, shape_left, shape_right, _ = self._get_shape()
         if self.piece_x + shape_left < 0:
@@ -93,8 +92,8 @@ class Board:
     def drop(self) -> None:
         shape, shape_left, shape_right, shape_bottom = self._get_shape()
         for row in range(self.height, -1, -1):
-            print(row+shape.shape[0]-shape_bottom)
-            if row+shape.shape[0]-shape_bottom > self.height:
+            print(row + shape.shape[0] - shape_bottom)
+            if row + shape.shape[0] - shape_bottom > self.height:
                 continue
             strip_shape = shape[
                 : shape.shape[1] - shape_bottom,
