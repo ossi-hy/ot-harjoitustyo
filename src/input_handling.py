@@ -32,6 +32,8 @@ def process_inputs(board: Board) -> None:
                     board.rotate(0)
                 elif action == "ccw":
                     board.rotate(1)
+                elif action == "drop":
+                    board.drop()
                 pressed[action] = True
         else:
             pressed[action] = False
