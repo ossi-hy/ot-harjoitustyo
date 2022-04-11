@@ -21,12 +21,12 @@ class Board:
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
         self.pool = PiecePool(seed)
-        self.piece = 0#self.pool.next_piece()
+        self.piece = 5#self.pool.next_piece()
 
         self.piece_x = (
             4 - (SHAPES[self.piece].shape[1] + 1) // 2 + 1 # Offset the center position for different pieces
         )  # X-position of the currently dropping piece
-        self.piece_y = 1  # Y-position of the currently dropping piece
+        self.piece_y = 2  # Y-position of the currently dropping piece
         self.piece_r = 0  # Rotation of the currently dropping piece
 
     def _get_shape(self) -> tuple[np.ndarray, int, int]:
@@ -69,19 +69,18 @@ class Board:
         Args:
             dir (int): 0 means clockwise and 1 counterclockwise
         """
-        
+
         if dir == 0:
             self.piece_r -= 1
         elif dir == 1:
             self.piece_r += 1
 
         # Perform wallkick
-
         shape, shape_left, shape_right = self._get_shape()
         if self.piece_x + shape_left < 0:
-            self.piece_x += 1
+            self.piece_x -= self.piece_x + shape_left
         if self.piece_x + shape.shape[1] - shape_right > self.width:
-            self.piece_x -= 1
+            self.piece_x += self.width + shape_right - self.piece_x - shape.shape[1]
 
     def step(self):
         pass
