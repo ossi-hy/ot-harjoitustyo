@@ -28,6 +28,10 @@ def process_inputs(board: Board) -> None:
                     board.move(0)
                 elif action == "right":
                     board.move(1)
+                elif action == "cw":
+                    board.rotate(0)
+                elif action == "ccw":
+                    board.rotate(1)
                 pressed[action] = True
         else:
             pressed[action] = False
