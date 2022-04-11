@@ -24,7 +24,7 @@ class Board:
 
         print(SHAPES[self.piece].shape[1])
         self.piece_x = (
-            4 - (SHAPES[self.piece].shape[1] + 1) // 2 + 1
+            4 - (SHAPES[self.piece].shape[1] + 1) // 2 + 1 # Offset the center position for different pieces
         )  # X-position of the currently dropping piece
         self.piece_y = 0  # Y-position of the currently dropping piece
         self.piece_r = 0  # Rotation of the currently dropping piece
@@ -38,8 +38,15 @@ class Board:
         ] = shape
         return new_board
 
-    def move(self):
-        pass
+    def move(self, dir: int):
+        if dir == 0: # Left
+            if self.piece_x == 0:
+                return
+            self.piece_x -= 1
+        elif dir == 1:
+            if self.piece_x+SHAPES[self.piece].shape[1] == self.width:
+                return
+            self.piece_x += 1
 
     def rotate(self):
         pass

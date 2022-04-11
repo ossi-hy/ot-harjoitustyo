@@ -3,6 +3,7 @@ import time
 import keyboard as kb # type: ignore
 from board import Board
 from render import Renderer
+import input_handling
 
 
 
@@ -14,14 +15,18 @@ def main():
 
     renderer = Renderer(window, gameboard)
 
+    left_pressed = False
+
     starttime = time.perf_counter()
     while True:
-        if window.focus_displayof() and kb.is_pressed("esc"):
-            break
+        if window.focus_displayof():
+            if kb.is_pressed("esc"):
+                break
+            input_handling.process_inputs(gameboard)
         renderer.draw()
 
         frametime = time.perf_counter() - starttime
-        while frametime < 1 / 19:
+        while frametime < 1 / 60:
             frametime = time.perf_counter() - starttime
         starttime = time.perf_counter()
 
