@@ -1,3 +1,4 @@
+from typing import Optional
 import numpy as np
 from pool import PiecePool
 
@@ -13,12 +14,12 @@ SHAPES = [
 
 
 class Board:
-    def __init__(self, width=10, height=20):
+    def __init__(self, width=10, height=20, seed: Optional[int]=None) -> None:
         self.width = width
         self.height = height
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
-        self.pool = PiecePool()
+        self.pool = PiecePool(seed)
         self.piece = self.pool.next_piece()
 
         print(SHAPES[self.piece].shape[1])
@@ -28,7 +29,7 @@ class Board:
         self.piece_y = 0  # Y-position of the currently dropping piece
         self.piece_r = 0  # Rotation of the currently dropping piece
 
-    def get_board_with_piece(self):
+    def get_board_with_piece(self) -> np.ndarray:
         shape = SHAPES[self.piece]
         new_board = np.copy(self.board)
         new_board[

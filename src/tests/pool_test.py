@@ -5,8 +5,7 @@ from pool import PiecePool
 
 class TestPiecePool(unittest.TestCase):
     def setUp(self) -> None:
-        random.seed(0)
-        self.pool = PiecePool()
+        self.pool = PiecePool(0)
 
     def test_pieces_within_range(self):
         for _ in range(15):
