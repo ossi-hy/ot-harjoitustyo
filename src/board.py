@@ -18,13 +18,19 @@ class Board:
         self.width = width
         self.height = height + 2
         self.visible_height = height
+
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
-        self.pool = PiecePool(seed)
-        self.new_piece(id=0)
+        self.piece = 0
+        self.piece_x = 0
+        self.piece_y = 0
+        self.piece_r = 0
 
-    def new_piece(self, id: Optional[int] = None) -> None:
-        self.piece = self.pool.next_piece() if id == None else id
+        self.pool = PiecePool(seed)
+        self.new_piece()
+
+    def new_piece(self, piece_id: Optional[int] = None) -> None:
+        self.piece = self.pool.next_piece() if piece_id is None else piece_id
         self.piece_x = (
             4
             - (SHAPES[self.piece - 1].shape[1] + 1) // 2
@@ -50,36 +56,36 @@ class Board:
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
         return new_board
 
-    def move(self, dir: int) -> None:
+    def move(self, direction: int) -> None:
         """Move the currently falling piece horizontally.
 
         Args:
             dir (int): 0 means left and 1 right
         """
         shape, shape_left, shape_right, _ = self._get_shape()
-        if dir == 0:
+        if direction == 0:
             if self.piece_x <= 0 - shape_left:
                 self.piece_x = 0 - shape_left
                 return
             self.piece_x -= 1
-        elif dir == 1:
+        elif direction == 1:
             if self.piece_x + shape.shape[1] - shape_right >= self.width:
                 self.piece_x = self.width - shape.shape[1] + shape_right
                 return
             self.piece_x += 1
 
-    def rotate(self, dir: int) -> None:
+    def rotate(self, direction: int) -> None:
         """Rotate the currently falling piece
 
         Args:
             dir (int): 0 means clockwise and 1 counterclockwise. 2 means rotate 180 degrees.
         """
 
-        if dir == 0:
+        if direction == 0:
             self.piece_r -= 1
-        elif dir == 1:
+        elif direction == 1:
             self.piece_r += 1
-        elif dir == 2:
+        elif direction == 2:
             self.piece_r += 2
 
         # Perform wallkick

@@ -15,8 +15,6 @@ def main():
 
     renderer = Renderer(window, gameboard)
 
-    left_pressed = False
-
     starttime = time.perf_counter()
     while True:
         if window.focus_displayof():

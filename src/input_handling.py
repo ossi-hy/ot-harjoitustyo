@@ -21,21 +21,22 @@ pressed = {
 
 
 def process_inputs(board: Board) -> None:
-    for action in inputs:
-        if kb.is_pressed(inputs[action]):
-            if not pressed[action]:
-                if action == "left":
-                    board.move(0)
-                elif action == "right":
-                    board.move(1)
-                elif action == "cw":
-                    board.rotate(0)
-                elif action == "ccw":
-                    board.rotate(1)
-                elif action == "180":
-                    board.rotate(2)
-                elif action == "drop":
-                    board.drop()
-                pressed[action] = True
+    for action, key in inputs.items():
+        if kb.is_pressed(key):
+            if pressed[action]:
+                continue
+            if action == "left":
+                board.move(0)
+            elif action == "right":
+                board.move(1)
+            elif action == "cw":
+                board.rotate(0)
+            elif action == "ccw":
+                board.rotate(1)
+            elif action == "180":
+                board.rotate(2)
+            elif action == "drop":
+                board.drop()
+            pressed[action] = True
         else:
             pressed[action] = False

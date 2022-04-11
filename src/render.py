@@ -35,9 +35,9 @@ class Renderer:
         offset = self._board.height - self._board.visible_height
         for col in range(self._board.visible_height):
             for row in range(self._board.width):
-                color = "#{:02x}{:02x}{:02x}".format(
+                color = "#{:02x}{:02x}{:02x}".format( # pylint: disable=consider-using-f-string
                     *COLORS[self._board.get_board_with_piece()[col + offset, row]]
-                )  # pylint: disable=consider-using-f-string
+                )
                 self._canvas.create_rectangle(
                     row * self.width / self._board.width,
                     col * self.height / self._board.visible_height,
