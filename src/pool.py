@@ -4,7 +4,7 @@ from typing import Optional
 
 class PiecePool:
     def __init__(self, seed: Optional[int]) -> None:
-        if seed:
+        if seed is not None:
             random.seed(seed)
         self._refill()
 
