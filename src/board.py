@@ -107,8 +107,17 @@ class Board:
                     + shape.shape[1]
                     - shape_right,
                 ] += strip_shape
+                self.clear_lines()
                 self.new_piece()
                 break
+
+    def clear_lines(self) -> None:
+        """Clear the complete lines
+        """
+        for row in range(self.height - 1, -1, -1):
+            if (self.board[row] != 0).all():
+                self.board[:row+1] = np.roll(self.board[:row+1], 1, axis=0)
+                self.board[0] = np.zeros(self.width, dtype=np.uint8)
 
     def step(self):
         pass
