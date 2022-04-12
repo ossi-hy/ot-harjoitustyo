@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from board import Board
+from config import WINDOW_WIDTH, WINDOW_HEIGHT
 
 # Colors of the tetraminos
 COLORS = [
@@ -16,11 +17,11 @@ COLORS = [
 
 
 class Renderer:
-    def __init__(self, window: tk.Tk, board: Board, width=300, height=600) -> None:
+    def __init__(self, window: tk.Tk, board: Board) -> None:
         self._window = window
-        self.width = width
-        self.height = height
-        self._canvas = tk.Canvas(self._window, width=width, height=height)
+        self.width = WINDOW_WIDTH
+        self.height = WINDOW_HEIGHT
+        self._canvas = tk.Canvas(self._window, width=self.width, height=self.height)
         self._canvas.pack()
         self._board = board
         self.grid = []
@@ -28,8 +29,6 @@ class Renderer:
         self._build_grid()
 
     def draw(self) -> None:
-        #self._canvas.delete("all")
-
         self._draw_board()
 
         self._window.update()

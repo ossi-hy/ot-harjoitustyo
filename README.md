@@ -14,7 +14,7 @@
 ## Asennus
 Asenna riippuvuudet
 ```bash
-$ poetry install
+$ poetry install [--no-dev]
 ```
 
 Käynnistä sovellus
