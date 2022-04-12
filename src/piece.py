@@ -19,6 +19,11 @@ class Piece:
         self.rotation = r
 
     def get_shape(self) -> tuple[np.ndarray, int, int, int]:
+        """Get the shape of the rotated piece and left, right and bottom offset within the array
+
+        Returns:
+            tuple[np.ndarray, int, int, int]: shape as array, number of empty columns on left, right and rows on bottom
+        """
         shape = SHAPES[self.piece_id - 1]
         shape = np.rot90(shape, self.rotation)
         shape_left = shape.any(0).argmax()
