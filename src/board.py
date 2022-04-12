@@ -22,18 +22,18 @@ class Board:
 
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
-        self.piece = Piece(0,0,0,0)
+        self.piece = Piece(0, 0, 0, 0)
 
         self.pool = PiecePool(seed)
         self.new_piece()
 
+    def reset(self) -> None:
+        self.board = np.zeros((self.height, self.width), dtype=np.uint8)
+        self.new_piece()
+
     def new_piece(self, piece_id: Optional[int] = None) -> None:
         piece_id = self.pool.next_piece() if piece_id is None else piece_id
-        piece_x = (
-            4
-            - (SHAPES[piece_id - 1].shape[1] + 1) // 2
-            + 1
-        )
+        piece_x = 4 - (SHAPES[piece_id - 1].shape[1] + 1) // 2 + 1
         piece_y = 2
         piece_r = 0
         self.piece = Piece(piece_id, piece_x, piece_y, piece_r)
@@ -43,7 +43,10 @@ class Board:
         new_board = np.copy(self.board)
         new_board[
             self.piece.y_pos : self.piece.y_pos + shape.shape[0],
-            self.piece.x_pos + shape_left : self.piece.x_pos + shape.shape[1] - shape_right,
+            self.piece.x_pos
+            + shape_left : self.piece.x_pos
+            + shape.shape[1]
+            - shape_right,
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
         return new_board
 
@@ -84,7 +87,9 @@ class Board:
         if self.piece.x_pos + shape_left < 0:
             self.piece.x_pos -= self.piece.x_pos + shape_left
         if self.piece.x_pos + shape.shape[1] - shape_right > self.width:
-            self.piece.x_pos += self.width + shape_right - self.piece.x_pos - shape.shape[1]
+            self.piece.x_pos += (
+                self.width + shape_right - self.piece.x_pos - shape.shape[1]
+            )
 
     def drop(self) -> None:
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
@@ -97,7 +102,10 @@ class Board:
             ]
             collision_area = self.board[
                 row : row + strip_shape.shape[0],
-                self.piece.x_pos + shape_left : self.piece.x_pos + shape.shape[1] - shape_right,
+                self.piece.x_pos
+                + shape_left : self.piece.x_pos
+                + shape.shape[1]
+                - shape_right,
             ]
             if (collision_area[np.nonzero(strip_shape)] == 0).all():
                 self.board[
@@ -112,11 +120,10 @@ class Board:
                 break
 
     def clear_lines(self) -> None:
-        """Clear the complete lines
-        """
+        """Clear the complete lines"""
         for row in range(self.height - 1, -1, -1):
             if (self.board[row] != 0).all():
-                self.board[:row+1] = np.roll(self.board[:row+1], 1, axis=0)
+                self.board[: row + 1] = np.roll(self.board[: row + 1], 1, axis=0)
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
 
     def step(self):

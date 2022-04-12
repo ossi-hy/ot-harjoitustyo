@@ -9,6 +9,7 @@ class Action:
     CCW = 3,
     UPSIDE_DOWN = 4,
     DROP = 5,
+    RESET = 6,
 
 
 class InputHandler:
@@ -25,6 +26,7 @@ class InputHandler:
             Action.CCW: Controls.CCW,
             Action.UPSIDE_DOWN: Controls.UPSIDE_DOWN,
             Action.DROP: Controls.DROP,
+            Action.RESET: Controls.RESET
         }
 
         self.pressed = {
@@ -34,6 +36,7 @@ class InputHandler:
             Controls.CCW: False,
             Controls.UPSIDE_DOWN: False,
             Controls.DROP: False,
+            Controls.RESET: False,
         }
 
     def process_inputs(self, elapsed: float) -> None:
@@ -68,6 +71,8 @@ class InputHandler:
                     self._board.rotate(2)
                 elif action == Action.DROP:
                     self._board.drop()
+                elif action == Action.RESET:
+                    self._board.reset()
                 # Mark the key is pressed
                 self.pressed[action] = True
             # Key is not pressed or released

@@ -17,6 +17,7 @@ class Controls:
     CCW = _parser["CONTROLS"]["rotate-ccw"] or 'a'
     UPSIDE_DOWN = _parser["CONTROLS"]["rotate-180"] or 's'
     DROP = _parser["CONTROLS"]["drop"] or "space"
+    RESET = _parser["CONTROLS"]["reset"] or 'f'
 
 DAS = _parser["GAMEPLAY"].getint("DAS")
 ARR = _parser["GAMEPLAY"].getint("ARR")
