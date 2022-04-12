@@ -3,7 +3,7 @@ import time
 import keyboard as kb # type: ignore
 from board import Board
 from ui.render import Renderer
-import input_handling
+from inputhandler import InputHandler
 
 
 
@@ -15,18 +15,23 @@ def main():
 
     renderer = Renderer(window, gameboard)
 
-    starttime = time.perf_counter()
+    inputhandler = InputHandler(gameboard)
+
+    start_time = time.perf_counter()
+    input_time = time.perf_counter()
     while True:
         if window.focus_displayof():
             if kb.is_pressed("esc"):
                 break
-            input_handling.process_inputs(gameboard)
+            inputhandler.process_inputs(gameboard, time.perf_counter() - input_time)
+            input_time = time.perf_counter()
         renderer.draw()
 
-        frametime = time.perf_counter() - starttime
+        frametime = time.perf_counter() - start_time
+        # Wait to keep 60fps
         while frametime < 1 / 60:
-            frametime = time.perf_counter() - starttime
-        starttime = time.perf_counter()
+            frametime = time.perf_counter() - start_time
+        start_time = time.perf_counter()
 
 
 if __name__ == "__main__":
