@@ -22,38 +22,28 @@ class Board:
 
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
-        self.piece = 0
-        self.piece_x = 0
-        self.piece_y = 0
-        self.piece_r = 0
+        self.piece = Piece(0,0,0,0)
 
         self.pool = PiecePool(seed)
         self.new_piece()
 
     def new_piece(self, piece_id: Optional[int] = None) -> None:
-        self.piece = self.pool.next_piece() if piece_id is None else piece_id
-        self.piece_x = (
+        piece_id = self.pool.next_piece() if piece_id is None else piece_id
+        piece_x = (
             4
-            - (SHAPES[self.piece - 1].shape[1] + 1) // 2
-            + 1  # Offset the center position for different pieces
-        )  # X-position of the currently dropping piece
-        self.piece_y = 2  # Y-position of the currently dropping piece
-        self.piece_r = 0  # Rotation of the currently dropping piece
-
-    def _get_shape(self) -> tuple[np.ndarray, int, int, int]:
-        shape = SHAPES[self.piece - 1]
-        shape = np.rot90(shape, self.piece_r)
-        shape_left = shape.any(0).argmax()
-        shape_right = np.fliplr(shape).any(0).argmax()
-        shape_bottom = np.flipud(shape).any(1).argmax()
-        return shape, shape_left, shape_right, shape_bottom
+            - (SHAPES[piece_id - 1].shape[1] + 1) // 2
+            + 1
+        )
+        piece_y = 2
+        piece_r = 0
+        self.piece = Piece(piece_id, piece_x, piece_y, piece_r)
 
     def get_board_with_piece(self) -> np.ndarray:
-        shape, shape_left, shape_right, _ = self._get_shape()
+        shape, shape_left, shape_right, _ = self.piece.get_shape()
         new_board = np.copy(self.board)
         new_board[
-            self.piece_y : self.piece_y + shape.shape[0],
-            self.piece_x + shape_left : self.piece_x + shape.shape[1] - shape_right,
+            self.piece.y_pos : self.piece.y_pos + shape.shape[0],
+            self.piece.x_pos + shape_left : self.piece.x_pos + shape.shape[1] - shape_right,
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
         return new_board
 
@@ -63,17 +53,17 @@ class Board:
         Args:
             dir (int): 0 means left and 1 right
         """
-        shape, shape_left, shape_right, _ = self._get_shape()
+        shape, shape_left, shape_right, _ = self.piece.get_shape()
         if direction == 0:
-            if self.piece_x <= 0 - shape_left:
-                self.piece_x = 0 - shape_left
+            if self.piece.x_pos <= 0 - shape_left:
+                self.piece.x_pos = 0 - shape_left
                 return
-            self.piece_x -= 1
+            self.piece.x_pos -= 1
         elif direction == 1:
-            if self.piece_x + shape.shape[1] - shape_right >= self.width:
-                self.piece_x = self.width - shape.shape[1] + shape_right
+            if self.piece.x_pos + shape.shape[1] - shape_right >= self.width:
+                self.piece.x_pos = self.width - shape.shape[1] + shape_right
                 return
-            self.piece_x += 1
+            self.piece.x_pos += 1
 
     def rotate(self, direction: int) -> None:
         """Rotate the currently falling piece
@@ -83,21 +73,21 @@ class Board:
         """
 
         if direction == 0:
-            self.piece_r -= 1
+            self.piece.rotation -= 1
         elif direction == 1:
-            self.piece_r += 1
+            self.piece.rotation += 1
         elif direction == 2:
-            self.piece_r += 2
+            self.piece.rotation += 2
 
         # Perform wallkick
-        shape, shape_left, shape_right, _ = self._get_shape()
-        if self.piece_x + shape_left < 0:
-            self.piece_x -= self.piece_x + shape_left
-        if self.piece_x + shape.shape[1] - shape_right > self.width:
-            self.piece_x += self.width + shape_right - self.piece_x - shape.shape[1]
+        shape, shape_left, shape_right, _ = self.piece.get_shape()
+        if self.piece.x_pos + shape_left < 0:
+            self.piece.x_pos -= self.piece.x_pos + shape_left
+        if self.piece.x_pos + shape.shape[1] - shape_right > self.width:
+            self.piece.x_pos += self.width + shape_right - self.piece.x_pos - shape.shape[1]
 
     def drop(self) -> None:
-        shape, shape_left, shape_right, shape_bottom = self._get_shape()
+        shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
         for row in range(self.height, -1, -1):
             if row + shape.shape[0] - shape_bottom > self.height:
                 continue
@@ -107,13 +97,13 @@ class Board:
             ]
             collision_area = self.board[
                 row : row + strip_shape.shape[0],
-                self.piece_x + shape_left : self.piece_x + shape.shape[1] - shape_right,
+                self.piece.x_pos + shape_left : self.piece.x_pos + shape.shape[1] - shape_right,
             ]
             if (collision_area[np.nonzero(strip_shape)] == 0).all():
                 self.board[
                     row : row + strip_shape.shape[0],
-                    self.piece_x
-                    + shape_left : self.piece_x
+                    self.piece.x_pos
+                    + shape_left : self.piece.x_pos
                     + shape.shape[1]
                     - shape_right,
                 ] += strip_shape
