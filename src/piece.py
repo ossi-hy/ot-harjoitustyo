@@ -10,8 +10,9 @@ SHAPES = [
     np.array([[7, 7], [7, 7]], dtype=np.uint8),
 ]
 
+
 class Piece:
-    def __init__(self, piece_id: int, x: int, y:int, r:int) -> None:
+    def __init__(self, piece_id: int, x: int, y: int, r: int) -> None:
         self.piece_id = piece_id
         self.x_pos = x
         self.y_pos = y

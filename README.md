@@ -4,6 +4,8 @@
 
 [Vaatimusmäärittely](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
+[Arkkitehtuuri](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
 [Tuntikirjanpito](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
 [Changelog](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
