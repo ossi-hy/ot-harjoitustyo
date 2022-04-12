@@ -1,13 +1,14 @@
 import keyboard as kb # type: ignore
 from board import Board
+from config import Controls
 
 inputs = {
-    "left": "left",
-    "right": "right",
-    "drop": "space",
-    "cw": "d",
-    "ccw": "a",
-    "180": "s",
+    "left": Controls.LEFT,
+    "right": Controls.RIGHT,
+    "drop": Controls.DROP,
+    "cw": Controls.CW,
+    "ccw": Controls.CCW,
+    "180": Controls.UPSIDE_DOWN,
 }
 
 pressed = {
