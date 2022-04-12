@@ -2,7 +2,7 @@ import tkinter as tk
 import time
 import keyboard as kb # type: ignore
 from board import Board
-from render import Renderer
+from ui.render import Renderer
 import input_handling
 
 
