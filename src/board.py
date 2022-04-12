@@ -1,6 +1,7 @@
 from typing import Optional
 import numpy as np
 from pool import PiecePool
+from piece import Piece
 
 SHAPES = [
     np.array([[0, 1, 0], [1, 1, 1], [0, 0, 0]], dtype=np.uint8),
@@ -98,7 +99,6 @@ class Board:
     def drop(self) -> None:
         shape, shape_left, shape_right, shape_bottom = self._get_shape()
         for row in range(self.height, -1, -1):
-            print(row + shape.shape[0] - shape_bottom)
             if row + shape.shape[0] - shape_bottom > self.height:
                 continue
             strip_shape = shape[
@@ -109,8 +109,6 @@ class Board:
                 row : row + strip_shape.shape[0],
                 self.piece_x + shape_left : self.piece_x + shape.shape[1] - shape_right,
             ]
-            print("Collision\n", collision_area)
-            print("Shape\n", strip_shape)
             if (collision_area[np.nonzero(strip_shape)] == 0).all():
                 self.board[
                     row : row + strip_shape.shape[0],
@@ -119,9 +117,7 @@ class Board:
                     + shape.shape[1]
                     - shape_right,
                 ] += strip_shape
-                print(self.board)
                 self.new_piece()
-                print("DROPPED")
                 break
 
     def step(self):
