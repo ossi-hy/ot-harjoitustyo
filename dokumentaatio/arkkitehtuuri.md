@@ -19,9 +19,13 @@ classDiagram
         +int height
         +draw()
     }
+    class InputHandler {
+        +process_inputs(int elapsed)
+    }
 
     Board "1" -- "1" Piece
     Board "1" -- "1" PiecePool
     Renderer "*" -- "1" Board
+    InputHandler "*" -- "1" Board
 
 ```

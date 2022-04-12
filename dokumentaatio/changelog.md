@@ -10,4 +10,6 @@
 - Lisätty alkeellinen kontrollien hallinta
 - Lisätty suurin osa tetrominojen liikuttelu ja pyöritys logiikasta
 - Lisätty palan tiputus logiikka
-- Lisätty muutama testi
+- Lisätty testejä Board, PiecePool ja Piece luokille
+- Lisätty asetustiedosto
+- Lisätty DAS ja ARR

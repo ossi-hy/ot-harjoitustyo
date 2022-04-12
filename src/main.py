@@ -23,7 +23,7 @@ def main():
         if window.focus_displayof():
             if kb.is_pressed("esc"):
                 break
-            inputhandler.process_inputs(gameboard, time.perf_counter() - input_time)
+            inputhandler.process_inputs(time.perf_counter() - input_time)
             input_time = time.perf_counter()
         renderer.draw()
 

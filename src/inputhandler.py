@@ -36,7 +36,7 @@ class InputHandler:
             Controls.DROP: False,
         }
 
-    def process_inputs(self, board: Board, elapsed: float) -> None:
+    def process_inputs(self, elapsed: float) -> None:
         move_keys_pressed = False
         for action, key in self.inputs.items():
             if kb.is_pressed(key):
