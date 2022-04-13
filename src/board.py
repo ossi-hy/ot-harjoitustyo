@@ -38,8 +38,8 @@ class Board:
         piece_r = 0
         self.piece = Piece(piece_id, piece_x, piece_y, piece_r)
 
-    def get_board_with_piece(self) -> np.ndarray:
-        shape, shape_left, shape_right, _ = self.piece.get_shape()
+    def get_board_with_piece(self, shadow=True) -> np.ndarray:
+        shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
         new_board = np.copy(self.board)
         new_board[
             self.piece.y_pos : self.piece.y_pos + shape.shape[0],
@@ -48,6 +48,17 @@ class Board:
             + shape.shape[1]
             - shape_right,
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
+        if shadow:
+            shadow_height = self.get_drop_height()
+            stripped_shape = np.copy(shape[:shape.shape[0]-shape_bottom, shape_left : shape.shape[1] - shape_right])
+            stripped_shape[stripped_shape != 0] = 8
+            new_board[
+                shadow_height : shadow_height + shape.shape[0] - shape_bottom,
+                self.piece.x_pos
+                + shape_left : self.piece.x_pos
+                + shape.shape[1]
+                - shape_right,
+            ] += stripped_shape
         return new_board
 
     def move(self, direction: int) -> None:
@@ -93,7 +104,25 @@ class Board:
 
     def drop(self) -> None:
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
-        for row in range(self.height, -1, -1):
+        strip_shape = shape[
+            : shape.shape[1] - shape_bottom,
+            shape_left : shape.shape[1] - shape_right,
+        ]
+        drop_height = self.get_drop_height()
+        self.board[
+            drop_height : drop_height + strip_shape.shape[0],
+            self.piece.x_pos
+            + shape_left : self.piece.x_pos
+            + shape.shape[1]
+            - shape_right,
+        ] += strip_shape
+        self.clear_lines()
+        self.new_piece()
+
+
+    def get_drop_height(self) -> int:
+        shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
+        for row in range(self.height):
             if row + shape.shape[0] - shape_bottom > self.height:
                 continue
             strip_shape = shape[
@@ -107,22 +136,15 @@ class Board:
                 + shape.shape[1]
                 - shape_right,
             ]
-            if (collision_area[np.nonzero(strip_shape)] == 0).all():
-                self.board[
-                    row : row + strip_shape.shape[0],
-                    self.piece.x_pos
-                    + shape_left : self.piece.x_pos
-                    + shape.shape[1]
-                    - shape_right,
-                ] += strip_shape
-                self.clear_lines()
-                self.new_piece()
-                break
+            if not (collision_area[np.nonzero(strip_shape)] == 0).all():
+                return row - 1
+        return self.height - shape.shape[0] + shape_bottom
+
 
     def clear_lines(self) -> None:
         """Clear the complete lines"""
         for row in range(self.height - 1, -1, -1):
-            if (self.board[row] != 0).all():
+            while (self.board[row] != 0).all():
                 self.board[: row + 1] = np.roll(self.board[: row + 1], 1, axis=0)
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
 
