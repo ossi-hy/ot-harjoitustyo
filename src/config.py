@@ -21,3 +21,5 @@ class Controls:
 
 DAS = _parser["GAMEPLAY"].getint("DAS")
 ARR = _parser["GAMEPLAY"].getint("ARR")
+
+SHADOW = _parser["GAMEPLAY"].getboolean("shadow")

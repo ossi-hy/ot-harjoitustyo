@@ -2,6 +2,7 @@ from typing import Optional
 import numpy as np
 from pool import PiecePool
 from piece import Piece
+from config import SHADOW
 
 SHAPES = [
     np.array([[0, 1, 0], [1, 1, 1], [0, 0, 0]], dtype=np.uint8),
@@ -38,7 +39,7 @@ class Board:
         piece_r = 0
         self.piece = Piece(piece_id, piece_x, piece_y, piece_r)
 
-    def get_board_with_piece(self, shadow=True) -> np.ndarray:
+    def get_board_with_piece(self) -> np.ndarray:
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
         new_board = np.copy(self.board)
         new_board[
@@ -48,7 +49,7 @@ class Board:
             + shape.shape[1]
             - shape_right,
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
-        if shadow:
+        if SHADOW:
             shadow_height = self.get_drop_height()
             stripped_shape = np.copy(shape[:shape.shape[0]-shape_bottom, shape_left : shape.shape[1] - shape_right])
             stripped_shape[stripped_shape != 0] = 8
