@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Optional
 import numpy as np
 from pool import PiecePool
@@ -13,13 +14,17 @@ class Board:
 
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
 
-        self.piece = Piece(0, 0, 0, 0)
+        self.piece = None
+        self.hold_id = -1 # Id of the hold piece
+        self.can_hold = True # Player can only hold once per drop
 
         self.pool = PiecePool(seed)
         self.new_piece()
 
     def reset(self) -> None:
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
+        self.hold_id = -1
+        self.can_hold = True
         self.new_piece()
 
     def new_piece(self, piece_id: Optional[int] = None) -> None:
@@ -112,8 +117,11 @@ class Board:
             + shape.shape[1]
             - shape_right,
         ] += strip_shape
+
         self.clear_lines()
+
         self.new_piece()
+        self.can_hold = True
 
     def get_drop_height(self) -> int:
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
@@ -143,7 +151,16 @@ class Board:
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
 
     def hold(self):
-        pass
+        if not self.can_hold:
+            return
+        if self.hold_id == -1:
+            self.hold_id = self.piece.piece_id
+            self.new_piece()
+        else:
+            piece_id = self.piece.piece_id
+            self.new_piece(self.hold_id)
+            self.hold_id = piece_id
+        self.can_hold = False
 
     def step(self):
         pass
