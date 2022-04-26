@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import keyboard as kb  # type: ignore
 from board import Board
 from config import Controls, DAS, ARR

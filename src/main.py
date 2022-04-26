@@ -1,3 +1,4 @@
+from __future__ import annotations
 import tkinter as tk
 import time
 import keyboard as kb # type: ignore
