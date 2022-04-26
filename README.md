@@ -12,6 +12,8 @@
 
 
 ## Asennus
+[Uusin release](https://github.com/ossi-hy/ot-harjoitustyo/releases/tag/viikko5)
+
 Asenna riippuvuudet
 ```bash
 $ poetry install [--no-dev]
@@ -21,6 +23,9 @@ Käynnistä sovellus
 ```bash
 $ poetry run invoke start
 ```
+
+Asetukset sijaitsevat tiedostossa `config\settings.ini`.
+Eri asetusten selitykset [täällä](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/config/README.md).
 
 ## Testaus
 Aja testit
