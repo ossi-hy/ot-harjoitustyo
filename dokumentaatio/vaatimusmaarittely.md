@@ -3,7 +3,7 @@
 Sovellus on remake klassisesta tetris-pelistä. Sovelluksessa on graafinen käyttöliittymä.
 
 ## Toiminnallisuudet
-- Aloitusruutu, josta voi aloittaa pelin, mennä asetusten valintaruutuun tai poistua sovelluksesta.
+- Aloitusruutu, josta voi aloittaa pelin [tehty], mennä asetusten valintaruutuun tai poistua sovelluksesta [tehty].
 - Pelissä käyttäjä ohjaa tetrominoja näppäimistöllä [tehty].
 - Asetuksista käyttäjä voi vaihtaa kontrolleja
 
