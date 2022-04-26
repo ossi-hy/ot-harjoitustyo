@@ -1,11 +1,12 @@
 import tkinter as tk
 
+
 from board import Board
 from config import WINDOW_WIDTH, WINDOW_HEIGHT
 
 # Colors of the tetraminos
 COLORS = [
-    (0, 0, 0),
+    (10, 10, 10),
     (180, 0, 255),
     (0, 150, 0),
     (255, 0, 0),
@@ -17,7 +18,15 @@ COLORS = [
 ]
 
 
+class State:
+    MAINMENU = 0
+    SETTINGS = 1
+    GAME = 2
+    EXIT = 3
+
+
 class Renderer:
+    GAME_PADDING_RIGHT = 1.5
     def __init__(self, window: tk.Tk, board: Board) -> None:
         self._window = window
         self.width = WINDOW_WIDTH
@@ -26,23 +35,82 @@ class Renderer:
         self._canvas.pack()
         self._board = board
         self.grid = []
+        self.last_state = -1
+        self.state = State.MAINMENU
 
-        self._build_grid()
+        #self._build_grid()
 
     def draw(self) -> None:
-        self._draw_board()
+        if self.state == State.MAINMENU:
+            if self.last_state != self.state:
+                self._draw_mainmenu()
+        elif self.state == State.SETTINGS:
+            pass
+        elif self.state == State.GAME:
+            if self.last_state != self.state:
+                self._build_grid()
+            self._draw_board()
+        elif self.state == State.EXIT:
+            return False
+
+        self.last_state = self.state
 
         self._window.update()
 
+        return True
+
+
+    def _draw_mainmenu(self) -> None:
+        self._canvas.create_text(self.width/2, self.height/8, text="TETRIS", font=("Arial", 54))
+
+        play_btn = self._canvas.create_rectangle(
+            self.width / 6,
+            self.height / 4,
+            self.width - self.width / 6,
+            self.height / 4 + self.height / 5,
+            fill="white",
+        )
+        play_txt = self._canvas.create_text(self.width/2, self.height/4+self.height/10, text="Play", font=("Arial", 54))
+        self._canvas.tag_bind(play_btn, "<Button-1>", self.click_play)
+        self._canvas.tag_bind(play_txt, "<Button-1>", self.click_play)
+
+        stn_btn = self._canvas.create_rectangle(
+            self.width / 6,
+            self.height / 2,
+            self.width - self.width / 6,
+            self.height / 2 + self.height / 5,
+            fill="white",
+        )
+        stn_txt = self._canvas.create_text(self.width/2, self.height/2+self.height/10, text="Settings", font=("Arial", 54))
+
+        exit_btn = self._canvas.create_rectangle(
+            self.width / 6,
+            3*self.height / 4,
+            self.width - self.width / 6,
+            3*self.height / 4 + self.height / 5,
+            fill="white",
+        )
+        exit_txt = self._canvas.create_text(self.width/2, 3*self.height/4+self.height/10, text="Exit", font=("Arial", 54))
+        self._canvas.tag_bind(exit_btn, "<Button-1>", self.click_exit)
+        self._canvas.tag_bind(exit_txt, "<Button-1>", self.click_exit)
+
+    def click_play(self, event: tk.Event) -> None:
+        self.state = State.GAME
+
+    def click_exit(self, event: tk.Event) -> None:
+        self.state = State.EXIT
+
     def _build_grid(self) -> None:
+        self._canvas.delete("all")
+        game_width = self.width / self.GAME_PADDING_RIGHT
         for row in range(self._board.visible_height):
             row_rects = []
             for col in range(self._board.width):
                 color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
                 rect = self._canvas.create_rectangle(
-                    col * self.width / self._board.width,
+                    col * game_width / self._board.width,
                     row * self.height / self._board.visible_height,
-                    (col + 1) * self.width / self._board.width,
+                    (col + 1) * game_width / self._board.width,
                     (row + 1) * self.height / self._board.visible_height,
                     outline="#000000",
                     fill=color,

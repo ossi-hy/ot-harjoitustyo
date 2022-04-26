@@ -10,6 +10,7 @@ from inputhandler import InputHandler
 def main():
     gameboard = Board()
 
+    # Create window
     window = tk.Tk()
     window.title("Tetris")
 
@@ -25,10 +26,11 @@ def main():
                 break
             inputhandler.process_inputs(time.perf_counter() - input_time)
             input_time = time.perf_counter()
-        renderer.draw()
+        if not renderer.draw():
+            break
 
         frametime = time.perf_counter() - start_time
-        # Wait to keep 60fps
+        # Busyloop wait to keep 60fps
         while frametime < 1 / 60:
             frametime = time.perf_counter() - start_time
         start_time = time.perf_counter()
