@@ -22,3 +22,18 @@ Käynnistä sovellus
 $ poetry run invoke start
 ```
 
+Aja testit
+```bash
+$ poetry run invoke test
+```
+
+Muodosta koodikattavuus
+```bash
+$ poetry run invoke coverage-report
+```
+
+Aja linter
+```bash
+$ poetry run invoke lint
+```
+

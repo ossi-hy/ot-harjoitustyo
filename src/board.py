@@ -1,18 +1,8 @@
 from typing import Optional
 import numpy as np
 from pool import PiecePool
-from piece import Piece
+from piece import Piece, SHAPES
 from config import SHADOW
-
-SHAPES = [
-    np.array([[0, 1, 0], [1, 1, 1], [0, 0, 0]], dtype=np.uint8),
-    np.array([[0, 2, 2], [2, 2, 0], [0, 0, 0]], dtype=np.uint8),
-    np.array([[3, 3, 0], [0, 3, 3], [0, 0, 0]], dtype=np.uint8),
-    np.array([[4, 0, 0], [4, 4, 4], [0, 0, 0]], dtype=np.uint8),
-    np.array([[0, 0, 5], [5, 5, 5], [0, 0, 0]], dtype=np.uint8),
-    np.array([[0, 0, 0, 0], [6, 6, 6, 6], [0, 0, 0, 0], [0, 0, 0, 0]], dtype=np.uint8),
-    np.array([[7, 7], [7, 7]], dtype=np.uint8),
-]
 
 
 class Board:
@@ -51,7 +41,12 @@ class Board:
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
         if SHADOW:
             shadow_height = self.get_drop_height()
-            stripped_shape = np.copy(shape[:shape.shape[0]-shape_bottom, shape_left : shape.shape[1] - shape_right])
+            stripped_shape = np.copy(
+                shape[
+                    : shape.shape[0] - shape_bottom,
+                    shape_left : shape.shape[1] - shape_right,
+                ]
+            )
             stripped_shape[stripped_shape != 0] = 8
             new_board[
                 shadow_height : shadow_height + shape.shape[0] - shape_bottom,
@@ -120,7 +115,6 @@ class Board:
         self.clear_lines()
         self.new_piece()
 
-
     def get_drop_height(self) -> int:
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
         for row in range(self.height):
@@ -140,7 +134,6 @@ class Board:
             if not (collision_area[np.nonzero(strip_shape)] == 0).all():
                 return row - 1
         return self.height - shape.shape[0] + shape_bottom
-
 
     def clear_lines(self) -> None:
         """Clear the complete lines"""

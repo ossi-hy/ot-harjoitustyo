@@ -12,17 +12,18 @@ SHAPES = [
 
 
 class Piece:
-    def __init__(self, piece_id: int, x: int, y: int, r: int) -> None:
+    def __init__(self, piece_id: int, x_pos: int, y_pos: int, rot: int) -> None:
         self.piece_id = piece_id
-        self.x_pos = x
-        self.y_pos = y
-        self.rotation = r
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.rotation = rot
 
     def get_shape(self) -> tuple[np.ndarray, int, int, int]:
         """Get the shape of the rotated piece and left, right and bottom offset within the array
 
         Returns:
-            tuple[np.ndarray, int, int, int]: shape as array, number of empty columns on left, right and rows on bottom
+            tuple[np.ndarray, int, int, int]: shape as array,
+            number of empty columns on left, right and rows on bottom
         """
         shape = SHAPES[self.piece_id - 1]
         shape = np.rot90(shape, self.rotation)

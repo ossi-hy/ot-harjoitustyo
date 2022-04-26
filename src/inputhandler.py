@@ -3,13 +3,13 @@ from board import Board
 from config import Controls, DAS, ARR
 
 class Action:
-    LEFT = 0,
-    RIGHT = 1,
-    CW = 2,
-    CCW = 3,
-    UPSIDE_DOWN = 4,
-    DROP = 5,
-    RESET = 6,
+    LEFT = 0
+    RIGHT = 1
+    CW = 2
+    CCW = 3
+    UPSIDE_DOWN = 4
+    DROP = 5
+    RESET = 6
 
 
 class InputHandler:
