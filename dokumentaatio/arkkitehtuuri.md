@@ -29,3 +29,26 @@ classDiagram
     InputHandler "*" -- "1" Board
 
 ```
+
+Sekvenssikaavio esimerkki palan liikuttamisesta:
+```mermaid
+sequenceDiagram
+
+participant Renderer
+participant main()
+participant InputHandler
+participant Board
+participant Piece
+
+main() ->> InputHandler: process_inputs()
+InputHandler ->> Board: move()
+Board ->> +Piece: get_shape()
+Piece ->> -Board: shape
+
+main() ->> Renderer: draw()
+Renderer ->> +Board: get_board_with_piece()
+Board ->> +Piece: get_shape()
+Piece ->> -Board: shape
+Board ->> -Renderer: board
+
+```
