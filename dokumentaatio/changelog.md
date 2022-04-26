@@ -13,3 +13,6 @@
 - Lisätty testejä Board, PiecePool ja Piece luokille
 - Lisätty asetustiedosto
 - Lisätty DAS ja ARR
+
+## Viikko 5
+- Lisätty haamupala
