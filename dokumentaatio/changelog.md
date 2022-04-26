@@ -17,3 +17,4 @@
 ## Viikko 5
 - Lisätty haamupala
 - Lisätty aloitusruutu, josta pääsee peliin
+- Lisätty palan vaihto
