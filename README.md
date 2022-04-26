@@ -22,6 +22,7 @@ Käynnistä sovellus
 $ poetry run invoke start
 ```
 
+## Testaus
 Aja testit
 ```bash
 $ poetry run invoke test
@@ -31,8 +32,10 @@ Muodosta koodikattavuus
 ```bash
 $ poetry run invoke coverage-report
 ```
+Kattavuus luodaan kansioon *htmlcov*
 
-Aja linter
+## Muut
+Aja pylint
 ```bash
 $ poetry run invoke lint
 ```
