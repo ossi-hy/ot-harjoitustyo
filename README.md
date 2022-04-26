@@ -12,6 +12,8 @@
 
 
 ## Asennus
+> ⚠ Huomio! Tämänhetkinen versio tarvitsee sudo/admin oikeudet
+
 [Uusin release](https://github.com/ossi-hy/ot-harjoitustyo/releases/tag/viikko5)
 
 Asenna riippuvuudet
