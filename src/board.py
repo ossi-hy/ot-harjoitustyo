@@ -142,5 +142,8 @@ class Board:
                 self.board[: row + 1] = np.roll(self.board[: row + 1], 1, axis=0)
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
 
+    def hold(self):
+        pass
+
     def step(self):
         pass
