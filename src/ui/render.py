@@ -2,6 +2,7 @@ import tkinter as tk
 
 
 from board import Board
+from piece import SHAPES
 from config import WINDOW_WIDTH, WINDOW_HEIGHT
 
 # Colors of the tetraminos
@@ -26,7 +27,7 @@ class State:
 
 
 class Renderer:
-    GAME_PADDING_RIGHT = 1.5
+    GAME_PADDING_RIGHT = 1.6
     def __init__(self, window: tk.Tk, board: Board) -> None:
         self._window = window
         self.width = WINDOW_WIDTH
@@ -35,6 +36,7 @@ class Renderer:
         self._canvas.pack()
         self._board = board
         self.grid = []
+        self.hold_grid = []
         self.last_state = -1
         self.state = State.MAINMENU
 
@@ -117,6 +119,21 @@ class Renderer:
                 )
                 row_rects.append(rect)
             self.grid.append(row_rects)
+        for row in range(1,5):
+            row_rects = []
+            for col in range(1,5):
+                color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
+                rect = self._canvas.create_rectangle(
+                    col * game_width / self._board.width + game_width,
+                    row * self.height / self._board.visible_height,
+                    (col + 1) * game_width / self._board.width + game_width,
+                    (row + 1) * self.height / self._board.visible_height,
+                    outline="#000000",
+                    fill=color,
+                )
+                row_rects.append(rect)
+            self.hold_grid.append(row_rects)
+                
 
     def _draw_board(self) -> None:
         offset = self._board.height - self._board.visible_height
@@ -126,3 +143,17 @@ class Renderer:
                     *COLORS[self._board.get_board_with_piece()[row + offset, col]]
                 )
                 self._canvas.itemconfig(self.grid[row][col], fill=color)
+        if self._board.hold_id == -1:
+            return
+        shape = SHAPES[self._board.hold_id-1]
+        for row in range(4):
+            for col in range(4):
+                if row < shape.shape[0] and col < shape.shape[1]:
+                    color = "#{:02x}{:02x}{:02x}".format(
+                        *COLORS[shape[row, col]]
+                    )
+                else:
+                    color = "#{:02x}{:02x}{:02x}".format(
+                        *COLORS[0]
+                    )
+                self._canvas.itemconfig(self.hold_grid[row][col], fill=color)
