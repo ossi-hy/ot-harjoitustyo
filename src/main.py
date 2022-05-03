@@ -1,9 +1,9 @@
 from __future__ import annotations
 import tkinter as tk
 import time
-from board import Board
+from game.board import Board
 from ui.render import Renderer
-from inputhandler import InputHandler
+from ui.inputhandler import InputHandler
 
 
 def main():
