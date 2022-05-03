@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pynput import keyboard as kb
+from pynput import keyboard as kb # type: ignore
 from board import Board
 from config import Action, Controls, DAS, ARR
 import time
@@ -35,20 +35,39 @@ class InputHandler:
         }
 
         self.pressed = self.trigger.copy()
+        
         self.listener = kb.Listener(on_press=self.on_press, on_release=self.on_release)
         self.listener.start()
 
         self.input_time = time.perf_counter()
 
-    def on_press(self, key):
+    def on_press(self, key) -> None:
+        """Keypress callback function
+
+        Args:
+            key (kb.Key/kb.KeyCode/None): Pressed key
+        """
         if key in self.actions:
             self.trigger[self.actions[key]] = True
 
-    def on_release(self, key):
+    def on_release(self, key) -> None:
+        """Keyrelease callback function
+
+        Args:
+            key (kb.Key/kb.KeyCode/None): Released key
+        """
         if key in self.actions:
             self.trigger[self.actions[key]] = False
 
     def process_inputs(self, elapsed: float) -> bool:
+        """Process inputs from since last frame
+
+        Args:
+            elapsed (float): Time since this function was last called
+
+        Returns:
+            bool: False if we should exit
+        """
         move_keys_pressed = False
         for action in self.trigger:
             if self.trigger[action]:
@@ -79,12 +98,12 @@ class InputHandler:
                     self._board.hold()
                 elif action == Action.RESET:
                     self._board.reset()
-                # Mark the key is pressed
+
                 self.pressed[action] = True
             # Key is not pressed or released
             else:
-                # Reset DAS and ARR timers when movement keys are lifted
                 self.pressed[action] = False
+        # Reset DAS and ARR timers when movement keys are lifted
         if not move_keys_pressed:
             self.das_timer = DAS
             self.arr_timer = ARR
@@ -93,12 +112,23 @@ class InputHandler:
         return True
 
     def move(self, action: Action) -> None:
+        """Small helper function to seperate left and right movements
+
+        Args:
+            action (Action): _description_
+        """
         if action == Action.LEFT:
             self._board.move(0)
         elif action == Action.RIGHT:
             self._board.move(1)
 
     def calculate_das_arr(self, action: Action, elapsed: float) -> None:
+        """Keep track of the das and arr timers, and move piece accordingly
+
+        Args:
+            action (Action): Move left or right
+            elapsed (float): Time since input processing was last called
+        """
         if self.das_elapsed:
             self.arr_timer -= elapsed * 1000
             if self.arr_timer <= 0:
