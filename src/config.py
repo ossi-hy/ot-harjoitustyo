@@ -24,15 +24,16 @@ class Action(Enum):
     RESET = auto()
     BACK = auto()
 
+
 Controls = {
     Action.LEFT: _parser["CONTROLS"]["move-left"] or "left",
     Action.RIGHT: _parser["CONTROLS"]["move-right"] or "right",
-    Action.CW: _parser["CONTROLS"]["rotate-cw"] or 'd',
-    Action.CCW: _parser["CONTROLS"]["rotate-ccw"] or 'a',
-    Action.UPSIDE_DOWN: _parser["CONTROLS"]["rotate-180"] or 's',
+    Action.CW: _parser["CONTROLS"]["rotate-cw"] or "d",
+    Action.CCW: _parser["CONTROLS"]["rotate-ccw"] or "a",
+    Action.UPSIDE_DOWN: _parser["CONTROLS"]["rotate-180"] or "s",
     Action.DROP: _parser["CONTROLS"]["drop"] or "space",
     Action.HOLD: _parser["CONTROLS"]["hold"] or "up",
-    Action.RESET: _parser["CONTROLS"]["reset"] or 'f',
+    Action.RESET: _parser["CONTROLS"]["reset"] or "f",
     Action.BACK: "esc",
 }
 

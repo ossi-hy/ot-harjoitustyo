@@ -1,10 +1,9 @@
 from __future__ import annotations
 import time
-from pynput import keyboard as kb # type: ignore
+from pynput import keyboard as kb  # type: ignore
 from board import Board
 from config import Action, Controls, DAS, ARR
 from ui.render import Renderer, State
-
 
 
 class InputHandler:
@@ -109,7 +108,6 @@ class InputHandler:
             self.das_timer = DAS
             self.arr_timer = ARR
             self.das_elapsed = False
-
 
     def move(self, action: Action) -> None:
         """Small helper function to seperate left and right movements

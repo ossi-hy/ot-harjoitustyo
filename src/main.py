@@ -6,7 +6,6 @@ from ui.render import Renderer
 from inputhandler import InputHandler
 
 
-
 def main():
     gameboard = Board()
 
@@ -32,6 +31,7 @@ def main():
         while frametime < 1 / 60:
             frametime = time.perf_counter() - start_time
         start_time = time.perf_counter()
+    window.quit()
 
 
 if __name__ == "__main__":

@@ -29,6 +29,7 @@ class State:
 
 class Renderer:
     GAME_PADDING_RIGHT = 1.6
+
     def __init__(self, window: tk.Tk, board: Board) -> None:
         self._window = window
         self.width = WINDOW_WIDTH
@@ -41,9 +42,14 @@ class Renderer:
         self.last_state = -1
         self.state = State.MAINMENU
 
-        #self._build_grid()
+        # self._build_grid()
 
-    def draw(self) -> None:
+    def draw(self) -> bool:
+        """The main function to be called every frame. Handles state transitions and calls drawing functions.
+
+        Returns:
+            bool: Returns False if the state is 'Exit' meaning the window should be closed
+        """
         if self.state == State.MAINMENU:
             if self.last_state != self.state:
                 self._canvas.delete("all")
@@ -63,9 +69,11 @@ class Renderer:
 
         return True
 
-
     def _draw_mainmenu(self) -> None:
-        self._canvas.create_text(self.width/2, self.height/8, text="TETRIS", font=("Arial", 54))
+        """Draws the mainmenu of the program"""
+        self._canvas.create_text(
+            self.width / 2, self.height / 8, text="TETRIS", font=("Arial", 54)
+        )
 
         play_btn = self._canvas.create_rectangle(
             self.width / 6,
@@ -74,7 +82,12 @@ class Renderer:
             self.height / 4 + self.height / 5,
             fill="white",
         )
-        play_txt = self._canvas.create_text(self.width/2, self.height/4+self.height/10, text="Play", font=("Arial", 54))
+        play_txt = self._canvas.create_text(
+            self.width / 2,
+            self.height / 4 + self.height / 10,
+            text="Play",
+            font=("Arial", 54),
+        )
         self._canvas.tag_bind(play_btn, "<Button-1>", self.click_play)
         self._canvas.tag_bind(play_txt, "<Button-1>", self.click_play)
 
@@ -85,26 +98,47 @@ class Renderer:
             self.height / 2 + self.height / 5,
             fill="white",
         )
-        stn_txt = self._canvas.create_text(self.width/2, self.height/2+self.height/10, text="Settings", font=("Arial", 54))
+        stn_txt = self._canvas.create_text(
+            self.width / 2,
+            self.height / 2 + self.height / 10,
+            text="Settings",
+            font=("Arial", 54),
+        )
 
         exit_btn = self._canvas.create_rectangle(
             self.width / 6,
-            3*self.height / 4,
+            3 * self.height / 4,
             self.width - self.width / 6,
-            3*self.height / 4 + self.height / 5,
+            3 * self.height / 4 + self.height / 5,
             fill="white",
         )
-        exit_txt = self._canvas.create_text(self.width/2, 3*self.height/4+self.height/10, text="Exit", font=("Arial", 54))
+        exit_txt = self._canvas.create_text(
+            self.width / 2,
+            3 * self.height / 4 + self.height / 10,
+            text="Exit",
+            font=("Arial", 54),
+        )
         self._canvas.tag_bind(exit_btn, "<Button-1>", self.click_exit)
         self._canvas.tag_bind(exit_txt, "<Button-1>", self.click_exit)
 
     def click_play(self, event: tk.Event) -> None:
+        """Callback function for clicking play button on main menu
+
+        Args:
+            event (tk.Event): _description_
+        """
         self.state = State.GAME
 
     def click_exit(self, event: tk.Event) -> None:
+        """Callback function for clikcing exit button on main menu
+
+        Args:
+            event (tk.Event): _description_
+        """
         self.state = State.EXIT
 
     def _build_grid(self) -> None:
+        """Builds the tetris grid and additional small grid for held piece"""
         self._canvas.delete("all")
         game_width = self.width / self.GAME_PADDING_RIGHT
         for row in range(self._board.visible_height):
@@ -121,9 +155,9 @@ class Renderer:
                 )
                 row_rects.append(rect)
             self.grid.append(row_rects)
-        for row in range(1,5):
+        for row in range(1, 5):
             row_rects = []
-            for col in range(1,5):
+            for col in range(1, 5):
                 color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
                 rect = self._canvas.create_rectangle(
                     col * game_width / self._board.width + game_width,
@@ -135,9 +169,9 @@ class Renderer:
                 )
                 row_rects.append(rect)
             self.hold_grid.append(row_rects)
-                
 
     def _draw_board(self) -> None:
+        """Draws the current board and held piece"""
         offset = self._board.height - self._board.visible_height
         for row in range(self._board.visible_height):
             for col in range(self._board.width):
@@ -147,15 +181,11 @@ class Renderer:
                 self._canvas.itemconfig(self.grid[row][col], fill=color)
         if self._board.hold_id == -1:
             return
-        shape = SHAPES[self._board.hold_id-1]
+        shape = SHAPES[self._board.hold_id - 1]
         for row in range(4):
             for col in range(4):
                 if row < shape.shape[0] and col < shape.shape[1]:
-                    color = "#{:02x}{:02x}{:02x}".format(
-                        *COLORS[shape[row, col]]
-                    )
+                    color = "#{:02x}{:02x}{:02x}".format(*COLORS[shape[row, col]])
                 else:
-                    color = "#{:02x}{:02x}{:02x}".format(
-                        *COLORS[0]
-                    )
+                    color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
                 self._canvas.itemconfig(self.hold_grid[row][col], fill=color)
