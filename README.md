@@ -2,6 +2,8 @@
 
 ## Dokumentaatio
 
+[Kayttöohje](./dokumentaatio/kayttoohje.md)
+
 [Vaatimusmäärittely](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
 [Arkkitehtuuri](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
