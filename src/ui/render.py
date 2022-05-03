@@ -58,6 +58,7 @@ class Renderer:
             pass
         elif self.state == State.GAME:
             if self.last_state != self.state:
+                self._board.reset()
                 self._build_grid()
             self._draw_board()
         elif self.state == State.EXIT:
