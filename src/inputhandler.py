@@ -1,19 +1,11 @@
 from __future__ import annotations
 
-import keyboard as kb  # type: ignore
-#from pynput import keyboard as kb
+# import keyboard as kb  # type: ignore
+from pynput import keyboard as kb
 from board import Board
-from config import Controls, DAS, ARR
+from config import Action, Controls, DAS, ARR
+import time
 
-class Action:
-    LEFT = 0
-    RIGHT = 1
-    CW = 2
-    CCW = 3
-    UPSIDE_DOWN = 4
-    DROP = 5
-    HOLD = 6
-    RESET = 7
 
 
 class InputHandler:
@@ -23,32 +15,53 @@ class InputHandler:
         self.arr_timer = ARR
         self.das_elapsed = False
 
-        self.inputs = {
-            Action.LEFT: Controls.LEFT,
-            Action.RIGHT: Controls.RIGHT,
-            Action.CW: Controls.CW,
-            Action.CCW: Controls.CCW,
-            Action.UPSIDE_DOWN: Controls.UPSIDE_DOWN,
-            Action.DROP: Controls.DROP,
-            Action.HOLD: Controls.HOLD,
-            Action.RESET: Controls.RESET
+        self.actions = {}
+
+        for action, key in Controls.items():
+            if len(key) == 1:
+                self.actions[kb.KeyCode(char=key)] = action
+            else:
+                self.actions[eval(f"kb.Key.{key}")] = action
+
+        self.trigger = {
+            Action.LEFT: False,
+            Action.RIGHT: False,
+            Action.CW: False,
+            Action.CCW: False,
+            Action.UPSIDE_DOWN: False,
+            Action.DROP: False,
+            Action.HOLD: False,
+            Action.RESET: False,
         }
 
         self.pressed = {
-            Controls.LEFT: False,
-            Controls.RIGHT: False,
-            Controls.CW: False,
-            Controls.CCW: False,
-            Controls.UPSIDE_DOWN: False,
-            Controls.DROP: False,
-            Controls.HOLD: False,
-            Controls.RESET: False,
+            Action.LEFT: False,
+            Action.RIGHT: False,
+            Action.CW: False,
+            Action.CCW: False,
+            Action.UPSIDE_DOWN: False,
+            Action.DROP: False,
+            Action.HOLD: False,
+            Action.RESET: False,
         }
+
+        self.listener = kb.Listener(on_press=self.on_press, on_release=self.on_release)
+        self.listener.start()
+
+        self.input_time = time.perf_counter()
+
+    def on_press(self, key):
+        if key in self.actions:
+            self.trigger[self.actions[key]] = True
+
+    def on_release(self, key):
+        if key in self.actions:
+            self.trigger[self.actions[key]] = False
 
     def process_inputs(self, elapsed: float) -> None:
         move_keys_pressed = False
-        for action, key in self.inputs.items():
-            if kb.is_pressed(key):
+        for action in self.trigger:
+            if self.trigger[action]:
                 # Key is already pressed
                 if self.pressed[action]:
                     # It's a movement key
