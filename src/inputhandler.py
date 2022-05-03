@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-# import keyboard as kb  # type: ignore
 from pynput import keyboard as kb
 from board import Board
 from config import Action, Controls, DAS, ARR
