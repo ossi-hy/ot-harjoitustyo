@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import Optional
 import numpy as np
-from pool import PiecePool
-from piece import Piece, SHAPES
+from game.pool import PiecePool
+from game.piece import Piece, SHAPES
 from config import SHADOW
 
 

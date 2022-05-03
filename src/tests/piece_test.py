@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from piece import Piece
+from game.piece import Piece
 
 class PieceTest(unittest.TestCase):
     def setUp(self) -> None:

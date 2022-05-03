@@ -18,3 +18,9 @@
 - Lisätty haamupala
 - Lisätty aloitusruutu, josta pääsee peliin
 - Lisätty palan vaihto
+
+## Viikko 6
+- Lisätty docstring-kattavuutta
+- Lisätty testien kattavuutta
+- Vaihdettu näppäimistön painalluksien lukemiseen tarkoittetu kirjasto sellaiseen, joka ei tarvitse admin oikeuksia
+- Pieniä tilojen vaihtoon liittyviä logiikkamuutoksia

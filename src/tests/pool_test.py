@@ -1,7 +1,7 @@
 import unittest
 import random
 
-from pool import PiecePool
+from game.pool import PiecePool
 
 
 class TestPiecePool(unittest.TestCase):

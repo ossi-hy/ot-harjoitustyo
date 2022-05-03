@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from board import Board
+from game.board import Board
 from config import SHADOW
 
 

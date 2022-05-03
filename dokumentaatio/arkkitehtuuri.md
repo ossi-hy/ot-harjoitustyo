@@ -1,8 +1,10 @@
-# Arkkitehtuuri
+# Arkkitehtuurikuvaus
+
+## Rakenne
+
 
 ```mermaid
 classDiagram
-
     class Board {
         +int width
         +int height

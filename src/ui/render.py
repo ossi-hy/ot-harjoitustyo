@@ -2,8 +2,8 @@ from __future__ import annotations
 import tkinter as tk
 
 
-from board import Board
-from piece import SHAPES
+from game.board import Board
+from game.piece import SHAPES
 from config import WINDOW_WIDTH, WINDOW_HEIGHT
 
 # Colors of the tetraminos

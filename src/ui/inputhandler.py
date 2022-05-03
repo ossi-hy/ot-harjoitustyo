@@ -1,7 +1,7 @@
 from __future__ import annotations
 import time
 from pynput import keyboard as kb  # type: ignore
-from board import Board
+from game.board import Board
 from config import Action, Controls, DAS, ARR
 from ui.render import Renderer, State
 
