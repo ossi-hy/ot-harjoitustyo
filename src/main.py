@@ -2,7 +2,7 @@ from __future__ import annotations
 import tkinter as tk
 import time
 from board import Board
-from ui.render import Renderer, State
+from ui.render import Renderer
 from inputhandler import InputHandler
 
 
@@ -22,11 +22,7 @@ def main():
     input_time = time.perf_counter()
     while True:
         if window.focus_displayof():
-            if not inputhandler.process_inputs(time.perf_counter() - input_time):
-                if renderer.state == State.MAINMENU:
-                    renderer.state = State.EXIT
-                else:
-                    renderer.state = State.MAINMENU
+            inputhandler.process_inputs(renderer, time.perf_counter() - input_time)
             input_time = time.perf_counter()
         if not renderer.draw():
             break
