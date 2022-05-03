@@ -1,10 +1,12 @@
 import unittest
 import numpy as np
 from board import Board
+from config import SHADOW
 
 
 class TestBoard(unittest.TestCase):
     def setUp(self) -> None:
+        SHADOW = True
         self.gameboard = Board()
 
     def test_empty_board(self):
@@ -39,4 +41,23 @@ class TestBoard(unittest.TestCase):
                 np.zeros((self.gameboard.height, self.gameboard.width), np.uint8),
             )
         )
+
+    def test_move_long_piece(self):
+        self.gameboard.new_piece(6)
+        for _ in range(10):
+            self.gameboard.move(0)
+        self.assertEqual(self.gameboard.piece.x_pos, 0)
+
+        for _ in range(10):
+            self.gameboard.move(1)
+        self.assertEqual(self.gameboard.piece.x_pos, self.gameboard.width-4)
+
+    def test_wallkick_long_piece(self):
+        self.gameboard.new_piece(6)
+        self.gameboard.rotate(0)
+        for _ in range(10):
+            self.gameboard.move(1)
+        self.gameboard.rotate(1)
+        self.assertEqual(self.gameboard.piece.x_pos, self.gameboard.width-4)
+
 
