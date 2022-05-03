@@ -46,6 +46,7 @@ class Renderer:
     def draw(self) -> None:
         if self.state == State.MAINMENU:
             if self.last_state != self.state:
+                self._canvas.delete("all")
                 self._draw_mainmenu()
         elif self.state == State.SETTINGS:
             pass

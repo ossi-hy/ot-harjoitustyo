@@ -1,6 +1,7 @@
 from __future__ import annotations
 import configparser
 import os
+from enum import Enum, auto
 
 FILENAME = "settings.ini"
 _dirname = os.path.dirname(__file__)
@@ -12,15 +13,16 @@ WINDOW_WIDTH = _parser["WINDOW"].getint("width")
 WINDOW_HEIGHT = _parser["WINDOW"].getint("height")
 
 
-class Action:
-    LEFT = 0
-    RIGHT = 1
-    CW = 2
-    CCW = 3
-    UPSIDE_DOWN = 4
-    DROP = 5
-    HOLD = 6
-    RESET = 7
+class Action(Enum):
+    LEFT = auto()
+    RIGHT = auto()
+    CW = auto()
+    CCW = auto()
+    UPSIDE_DOWN = auto()
+    DROP = auto()
+    HOLD = auto()
+    RESET = auto()
+    BACK = auto()
 
 Controls = {
     Action.LEFT: _parser["CONTROLS"]["move-left"] or "left",
@@ -30,7 +32,8 @@ Controls = {
     Action.UPSIDE_DOWN: _parser["CONTROLS"]["rotate-180"] or 's',
     Action.DROP: _parser["CONTROLS"]["drop"] or "space",
     Action.HOLD: _parser["CONTROLS"]["hold"] or "up",
-    Action.RESET: _parser["CONTROLS"]["reset"] or 'f'
+    Action.RESET: _parser["CONTROLS"]["reset"] or 'f',
+    Action.BACK: "esc",
 }
 
 DAS = _parser["GAMEPLAY"].getint("DAS")

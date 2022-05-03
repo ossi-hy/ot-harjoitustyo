@@ -1,9 +1,8 @@
 from __future__ import annotations
 import tkinter as tk
 import time
-import keyboard as kb # type: ignore
 from board import Board
-from ui.render import Renderer
+from ui.render import Renderer, State
 from inputhandler import InputHandler
 
 
@@ -23,9 +22,11 @@ def main():
     input_time = time.perf_counter()
     while True:
         if window.focus_displayof():
-            if kb.is_pressed("esc"):
-                break
-            inputhandler.process_inputs(time.perf_counter() - input_time)
+            if not inputhandler.process_inputs(time.perf_counter() - input_time):
+                if renderer.state == State.MAINMENU:
+                    renderer.state = State.EXIT
+                else:
+                    renderer.state = State.MAINMENU
             input_time = time.perf_counter()
         if not renderer.draw():
             break
