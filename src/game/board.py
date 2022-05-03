@@ -39,7 +39,8 @@ class Board:
         """Get a new piece from pool (or argument) and put it in the top center
 
         Args:
-            piece_id (Optional[int], optional): Id of the next piece. Gets it from pool if None. Defaults to None.
+            piece_id (Optional[int], optional): Id of the next piece.
+            Gets it from pool if None. Defaults to None.
         """
         piece_id = self.pool.next_piece() if piece_id is None else piece_id
         piece_x = 4 - (SHAPES[piece_id - 1].shape[1] + 1) // 2 + 1
@@ -48,7 +49,8 @@ class Board:
         self.piece = Piece(piece_id, piece_x, piece_y, piece_r)
 
     def get_board_with_piece(self) -> np.ndarray:
-        """Return numpy array representation of the board including currently hovering piece and optionally it's shadow
+        """Return numpy array representation of the board including currently
+            hovering piece and optionally it's shadow
 
         Returns:
             np.ndarray: board with current played piece and optional shadow
@@ -174,7 +176,8 @@ class Board:
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
 
     def hold(self):
-        """Put the current piece on 'hold' and get a new piece or recover the previosly held piece"""
+        """Put the current piece on 'hold' and get a new piece or recover
+            the previosly held piece"""
         if not self.can_hold:
             return
         if self.hold_id == -1:
