@@ -2,12 +2,14 @@ from __future__ import annotations
 import time
 import tkinter as tk
 from game.board import Board
-from config import Action, controls, DAS, ARR
-from ui.render import Renderer, State
+from config import Action, controls, DAS, ARR, write_control
+import ui.render
 
 
 class InputHandler:
     def __init__(self, window: tk.Tk, board: Board) -> None:
+        self._window = window
+
         self._board = board
         self.das_timer = DAS
         self.arr_timer = ARR
@@ -37,7 +39,8 @@ class InputHandler:
 
         self.input_time = time.perf_counter()
 
-    def on_press(self, key) -> None:
+
+    def on_press(self, key: tk.Event) -> None:
         """Keypress callback function
 
         Args:
@@ -47,7 +50,7 @@ class InputHandler:
         if key in self.actions:
             self.trigger[self.actions[key]] = True
 
-    def on_release(self, key) -> None:
+    def on_release(self, key: tk.Event) -> None:
         """Keyrelease callback function
 
         Args:
@@ -57,7 +60,7 @@ class InputHandler:
         if key in self.actions:
             self.trigger[self.actions[key]] = False
 
-    def process_inputs(self, renderer: Renderer, elapsed: float) -> None:
+    def process_inputs(self, renderer: ui.render.Renderer, elapsed: float) -> None:
         """Process inputs since the last frame
 
         Args:
@@ -72,10 +75,10 @@ class InputHandler:
             if action == Action.BACK:
                 # Prevent reading immediately again
                 self.trigger[action] = False
-                if renderer.state == State.MAINMENU:
-                    renderer.state = State.EXIT
+                if renderer.state == ui.render.State.MAINMENU:
+                    renderer.state = ui.render.State.EXIT
                 else:
-                    renderer.state = State.MAINMENU
+                    renderer.state = ui.render.State.MAINMENU
                 return
             # Key is already pressed
             if self.pressed[action]:
@@ -136,3 +139,26 @@ class InputHandler:
             if self.das_timer <= 0:
                 self.move(action)
                 self.das_elapsed = True
+
+    def on_record_press(self, key: tk.Event):
+        key = key.keysym.lower()
+        print("ON RECORD PRESS", key, "RECORDING FOR", self.recording_action)
+
+        if key in self.actions:
+            if self.actions[key] == Action.BACK:
+                self._window.unbind("<KeyPress>")
+                self._window.bind("<KeyPress>", self.on_press)
+                return
+
+        write_control(self.recording_action, key)
+
+        self._window.unbind("<KeyPress>")
+        self._window.bind("<KeyPress>", self.on_press)
+
+    def record_key(self, action: Action):
+        print("RECORD KEY", action)
+        self._window.unbind("<KeyPress>")
+
+        self.recording_action = action
+
+        self._window.bind("<KeyPress>", self.on_record_press)

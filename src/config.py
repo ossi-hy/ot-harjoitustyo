@@ -5,9 +5,10 @@ from enum import Enum, auto
 
 FILENAME = "settings.ini"
 _dirname = os.path.dirname(__file__)
+_filepath = os.path.join(_dirname, "..", "config", FILENAME)
 
 _parser = configparser.ConfigParser()
-_parser.read(os.path.join(_dirname, "..", "config", FILENAME))
+_parser.read(_filepath)
 
 WINDOW_WIDTH = _parser["WINDOW"].getint("width")
 WINDOW_HEIGHT = _parser["WINDOW"].getint("height")
@@ -40,6 +41,13 @@ controls = {Action.BACK: "escape"}
 
 for action, name in control_names.items():
     controls[action] = _parser["CONTROLS"][name]
+
+def write_control(action: Action, key: str):
+    print("WRITING CONTROL", action, key)
+    _parser["CONTROLS"][control_names[action]] = key
+    with open(_filepath, 'w') as configfile:
+        _parser.write(configfile)
+
 
 DAS = _parser["GAMEPLAY"].getint("DAS")
 ARR = _parser["GAMEPLAY"].getint("ARR")

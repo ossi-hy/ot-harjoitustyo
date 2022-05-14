@@ -13,16 +13,15 @@ def main():
     window = tk.Tk()
     window.title("Tetris")
 
-    renderer = Renderer(window, gameboard)
-
     inputhandler = InputHandler(window, gameboard)
+
+    renderer = Renderer(window, gameboard, inputhandler)
 
     start_time = time.perf_counter()
     input_time = time.perf_counter()
     while True:
-        if window.focus_displayof():
-            inputhandler.process_inputs(renderer, time.perf_counter() - input_time)
-            input_time = time.perf_counter()
+        inputhandler.process_inputs(renderer, time.perf_counter() - input_time)
+        input_time = time.perf_counter()
         if not renderer.draw():
             break
 

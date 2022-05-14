@@ -4,7 +4,8 @@ import tkinter as tk
 
 from game.board import Board
 from game.piece import SHAPES
-from config import WINDOW_WIDTH, WINDOW_HEIGHT, control_names, controls
+import ui.inputhandler
+from config import WINDOW_WIDTH, WINDOW_HEIGHT, control_names, controls, Action
 
 # Colors of the tetraminos
 COLORS = [
@@ -30,8 +31,9 @@ class State:
 class Renderer:
     GAME_PADDING_RIGHT = 1.6
 
-    def __init__(self, window: tk.Tk, board: Board) -> None:
+    def __init__(self, window: tk.Tk, board: Board, inputhandler: ui.inputhandler.InputHandler) -> None:
         self._window = window
+        self._inputhandler = inputhandler
         self.width = WINDOW_WIDTH
         self.height = WINDOW_HEIGHT
         self._canvas = tk.Canvas(self._window, width=self.width, height=self.height)
@@ -143,20 +145,23 @@ class Renderer:
                 text=name,
                 font=("Arial", 12),
             )
-            self._canvas.create_rectangle(
+            key_rec = self._canvas.create_rectangle(
                 self.width / 2.5 - 10,
                 i * (self.height - V_PAD * 2) / 8 + 36,
                 self.width / 2.5 + 100,
                 i * (self.height - V_PAD * 2) / 8 + 64,
                 fill="white"
             )
-            self._canvas.create_text(
+            key_txt = self._canvas.create_text(
                 self.width / 2.5,
                 i * (self.height - V_PAD * 2) / 8 + 40,
                 anchor="nw",
                 text=controls[action],
                 font=("Arial", 12),
             )
+            print("action", action)
+            self._canvas.tag_bind(key_rec, "<Button-1>", lambda x, y=action: self._click_bind(x, y))
+            self._canvas.tag_bind(key_txt, "<Button-1>", lambda x ,y=action: self._click_bind(x, y))
 
     def _click_play(self, event: tk.Event) -> None:
         """Callback function for clicking play button on main menu
@@ -173,6 +178,10 @@ class Renderer:
             event (tk.Event): _description_
         """
         self.state = State.SETTINGS
+
+    def _click_bind(self, event: tk.Event, action: Action):
+        print("CLICK BIND", action)
+        self._inputhandler.record_key(action)
 
     def _click_exit(self, event: tk.Event) -> None:
         """Callback function for clikcing exit button on main menu
