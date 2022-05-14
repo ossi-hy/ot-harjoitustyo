@@ -44,11 +44,10 @@ for action, name in control_names.items():
 
 def write_control(action: Action, key: str):
     _parser["CONTROLS"][control_names[action]] = key
-    with open(_filepath, 'w') as configfile:
+    with open(_filepath, 'w', encoding="utf-8") as configfile:
         _parser.write(configfile)
 
     controls[action] = key
-
 
 DAS = _parser["GAMEPLAY"].getint("DAS")
 ARR = _parser["GAMEPLAY"].getint("ARR")
