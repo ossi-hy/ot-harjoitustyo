@@ -16,9 +16,7 @@ class InputHandler:
         self.das_elapsed = False
 
         self.actions = {}
-
-        for action, key in controls.items():
-            self.actions[key] = action
+        self.create_actions()
 
         self.trigger = {
             Action.LEFT: False,
@@ -38,6 +36,11 @@ class InputHandler:
         window.bind("<KeyRelease>", self.on_release)
 
         self.input_time = time.perf_counter()
+
+    def create_actions(self):
+        self.actions = {}
+        for action, key in controls.items():
+            self.actions[key] = action
 
 
     def on_press(self, key: tk.Event) -> None:
@@ -140,25 +143,27 @@ class InputHandler:
                 self.move(action)
                 self.das_elapsed = True
 
-    def on_record_press(self, key: tk.Event):
+    def on_record_press(self, key: tk.Event, renderer: ui.render.Renderer):
         key = key.keysym.lower()
-        print("ON RECORD PRESS", key, "RECORDING FOR", self.recording_action)
 
         if key in self.actions:
             if self.actions[key] == Action.BACK:
                 self._window.unbind("<KeyPress>")
                 self._window.bind("<KeyPress>", self.on_press)
+                renderer._draw_settings()
                 return
 
         write_control(self.recording_action, key)
+        self.create_actions()
 
         self._window.unbind("<KeyPress>")
         self._window.bind("<KeyPress>", self.on_press)
 
-    def record_key(self, action: Action):
-        print("RECORD KEY", action)
+        renderer._draw_settings()
+
+    def record_key(self, action: Action, renderer: ui.render.Renderer):
         self._window.unbind("<KeyPress>")
 
         self.recording_action = action
 
-        self._window.bind("<KeyPress>", self.on_record_press)
+        self._window.bind("<KeyPress>", lambda x, y=renderer: self.on_record_press(x, y))

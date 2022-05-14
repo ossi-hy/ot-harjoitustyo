@@ -126,7 +126,7 @@ class Renderer:
         self._canvas.tag_bind(exit_btn, "<Button-1>", self._click_exit)
         self._canvas.tag_bind(exit_txt, "<Button-1>", self._click_exit)
 
-    def _draw_settings(self) -> None:
+    def _draw_settings(self, hide: Action = None) -> None:
         self._canvas.delete("all")
 
         V_PAD = 160
@@ -152,6 +152,8 @@ class Renderer:
                 i * (self.height - V_PAD * 2) / 8 + 64,
                 fill="white"
             )
+            if action == hide:
+                continue
             key_txt = self._canvas.create_text(
                 self.width / 2.5,
                 i * (self.height - V_PAD * 2) / 8 + 40,
@@ -159,7 +161,6 @@ class Renderer:
                 text=controls[action],
                 font=("Arial", 12),
             )
-            print("action", action)
             self._canvas.tag_bind(key_rec, "<Button-1>", lambda x, y=action: self._click_bind(x, y))
             self._canvas.tag_bind(key_txt, "<Button-1>", lambda x ,y=action: self._click_bind(x, y))
 
@@ -180,8 +181,8 @@ class Renderer:
         self.state = State.SETTINGS
 
     def _click_bind(self, event: tk.Event, action: Action):
-        print("CLICK BIND", action)
-        self._inputhandler.record_key(action)
+        self._inputhandler.record_key(action, self)
+        self._draw_settings(action)
 
     def _click_exit(self, event: tk.Event) -> None:
         """Callback function for clikcing exit button on main menu
