@@ -52,12 +52,11 @@ def write_control(action: Action, key: str):
 DAS = _parser["GAMEPLAY"].getint("DAS")
 ARR = _parser["GAMEPLAY"].getint("ARR")
 
-shadow = _parser["GAMEPLAY"].getboolean("shadow")
+SHADOW = _parser["GAMEPLAY"].getboolean("shadow")
 
 def toggle_shadow():
-    global shadow
-    shadow = not shadow
-    _parser["GAMEPLAY"]["shadow"] = 'true' if shadow else 'false'
+    global SHADOW
+    SHADOW = not SHADOW
+    _parser["GAMEPLAY"]["shadow"] = 'true' if SHADOW else 'false'
     with open(_filepath, 'w', encoding="utf-8") as configfile:
         _parser.write(configfile)
-

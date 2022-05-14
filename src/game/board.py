@@ -64,7 +64,7 @@ class Board:
             + shape.shape[1]
             - shape_right,
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
-        if config.shadow:
+        if config.SHADOW:
             shadow_height = self.get_drop_height()
             stripped_shape = np.copy(
                 shape[

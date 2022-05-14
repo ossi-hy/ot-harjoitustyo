@@ -200,7 +200,7 @@ class Renderer:
             self.width / 2.5,
             10 * (self.height - V_PAD * 2) / 8 + 40,
             anchor="nw",
-            text="true" if config.shadow else "false",
+            text="true" if config.SHADOW else "false",
             font=("Arial", 12),
         )
         self._canvas.tag_bind(shd_rec, "<Button-1>", self._click_shadowtoggle)
