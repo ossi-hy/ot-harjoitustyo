@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 from game.pool import PiecePool
 from game.piece import Piece, SHAPES
-from config import SHADOW
+import config
 
 
 class Board:
@@ -64,7 +64,7 @@ class Board:
             + shape.shape[1]
             - shape_right,
         ] = shape[:, shape_left : shape.shape[1] - shape_right]
-        if SHADOW:
+        if config.shadow:
             shadow_height = self.get_drop_height()
             stripped_shape = np.copy(
                 shape[

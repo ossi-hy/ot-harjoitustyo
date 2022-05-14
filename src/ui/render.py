@@ -5,7 +5,7 @@ import tkinter as tk
 from game.board import Board
 from game.piece import SHAPES
 import ui.inputhandler
-from config import WINDOW_WIDTH, WINDOW_HEIGHT, control_names, controls, Action
+import config
 
 # Colors of the tetraminos
 COLORS = [
@@ -31,11 +31,13 @@ class State:
 class Renderer:
     GAME_PADDING_RIGHT = 1.6
 
-    def __init__(self, window: tk.Tk, board: Board, inputhandler: ui.inputhandler.InputHandler) -> None:
+    def __init__(
+        self, window: tk.Tk, board: Board, inputhandler: ui.inputhandler.InputHandler
+    ) -> None:
         self._window = window
         self._inputhandler = inputhandler
-        self.width = WINDOW_WIDTH
-        self.height = WINDOW_HEIGHT
+        self.width = config.WINDOW_WIDTH
+        self.height = config.WINDOW_HEIGHT
         self._canvas = tk.Canvas(self._window, width=self.width, height=self.height)
         self._canvas.pack()
         self._board = board
@@ -126,17 +128,22 @@ class Renderer:
         self._canvas.tag_bind(exit_btn, "<Button-1>", self._click_exit)
         self._canvas.tag_bind(exit_txt, "<Button-1>", self._click_exit)
 
-    def _draw_settings(self, hide: Action = None) -> None:
+    def _draw_settings(self, hide: config.Action = None) -> None:
+        """Draw the settings menu where you can rebind controls and toggle piece shadow
+
+        Args:
+            hide (Action, optional): Hide the key that is currently waiting for keypress. Defaults to None.
+        """
         self._canvas.delete("all")
 
         V_PAD = 160
-        for i, (action, name) in enumerate(control_names.items()):
+        for i, (action, name) in enumerate(config.control_names.items()):
             self._canvas.create_rectangle(
                 self.width / 12 - 10,
                 i * (self.height - V_PAD * 2) / 8 + 36,
                 self.width / 12 + 100,
                 i * (self.height - V_PAD * 2) / 8 + 64,
-                fill="white"
+                fill="white",
             )
             self._canvas.create_text(
                 self.width / 12,
@@ -150,7 +157,7 @@ class Renderer:
                 i * (self.height - V_PAD * 2) / 8 + 36,
                 self.width / 2.5 + 100,
                 i * (self.height - V_PAD * 2) / 8 + 64,
-                fill="white"
+                fill="white",
             )
             if action == hide:
                 continue
@@ -158,11 +165,46 @@ class Renderer:
                 self.width / 2.5,
                 i * (self.height - V_PAD * 2) / 8 + 40,
                 anchor="nw",
-                text=controls[action],
+                text=config.controls[action],
                 font=("Arial", 12),
             )
-            self._canvas.tag_bind(key_rec, "<Button-1>", lambda x, y=action: self._click_bind(x, y))
-            self._canvas.tag_bind(key_txt, "<Button-1>", lambda x ,y=action: self._click_bind(x, y))
+            self._canvas.tag_bind(
+                key_rec, "<Button-1>", lambda x, y=action: self._click_bind(x, y)
+            )
+            self._canvas.tag_bind(
+                key_txt, "<Button-1>", lambda x, y=action: self._click_bind(x, y)
+            )
+
+        self._canvas.create_rectangle(
+            self.width / 12 - 10,
+            10 * (self.height - V_PAD * 2) / 8 + 36,
+            self.width / 12 + 100,
+            10 * (self.height - V_PAD * 2) / 8 + 64,
+            fill="white",
+        )
+        self._canvas.create_text(
+            self.width / 12,
+            10 * (self.height - V_PAD * 2) / 8 + 40,
+            anchor="nw",
+            text="shadow",
+            font=("Arial", 12),
+        )
+        shd_rec = self._canvas.create_rectangle(
+            self.width / 2.5 - 10,
+            10 * (self.height - V_PAD * 2) / 8 + 36,
+            self.width / 2.5 + 100, 
+            10 * (self.height - V_PAD * 2) / 8 + 64,
+            fill="white",
+        )
+        shd_txt = self._canvas.create_text(
+            self.width / 2.5,
+            10 * (self.height - V_PAD * 2) / 8 + 40,
+            anchor="nw",
+            text="true" if config.shadow else "false",
+            font=("Arial", 12),
+        )
+        self._canvas.tag_bind(shd_rec, "<Button-1>", self._click_shadowtoggle)
+        self._canvas.tag_bind(shd_txt, "<Button-1>", self._click_shadowtoggle)
 
     def _click_play(self, event: tk.Event) -> None:
         """Callback function for clicking play button on main menu
@@ -180,9 +222,13 @@ class Renderer:
         """
         self.state = State.SETTINGS
 
-    def _click_bind(self, event: tk.Event, action: Action):
+    def _click_bind(self, event: tk.Event, action: config.Action):
         self._inputhandler.record_key(action, self)
         self._draw_settings(action)
+
+    def _click_shadowtoggle(self, event: tk.Event):
+        config.toggle_shadow()
+        self._draw_settings()
 
     def _click_exit(self, event: tk.Event) -> None:
         """Callback function for clikcing exit button on main menu

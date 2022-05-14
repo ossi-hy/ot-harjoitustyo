@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from game.board import Board
-from config import SHADOW
+from config import shadow
 
 
 class TestBoard(unittest.TestCase):
