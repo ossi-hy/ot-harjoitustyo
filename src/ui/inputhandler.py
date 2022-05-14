@@ -17,10 +17,6 @@ class InputHandler:
 
         for action, key in Controls.items():
             self.actions[key] = action
-            #if len(key) == 1:
-            #    self.actions[kb.KeyCode(char=key)] = action
-            #else:
-            #    self.actions[eval(f"kb.Key.{key}")] = action
 
         self.trigger = {
             Action.LEFT: False,
@@ -36,9 +32,6 @@ class InputHandler:
 
         self.pressed = self.trigger.copy()
 
-        #self.listener = kb.Listener(on_press=self.on_press, on_release=self.on_release)
-        #self.listener.start()
-
         window.bind("<KeyPress>", self.on_press)
         window.bind("<KeyRelease>", self.on_release)
 
@@ -50,7 +43,6 @@ class InputHandler:
         Args:
             key (kb.Key/kb.KeyCode/None): Pressed key
         """
-        print(f"Pressed {key.keysym.lower()}")
         key = key.keysym.lower()
         if key in self.actions:
             self.trigger[self.actions[key]] = True
@@ -61,7 +53,6 @@ class InputHandler:
         Args:
             key (kb.Key/kb.KeyCode/None): Released key
         """
-        print(f"Released {key.keysym}")
         key = key.keysym.lower()
         if key in self.actions:
             self.trigger[self.actions[key]] = False
