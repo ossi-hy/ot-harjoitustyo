@@ -34,7 +34,7 @@ Controls = {
     Action.DROP: _parser["CONTROLS"]["drop"] or "space",
     Action.HOLD: _parser["CONTROLS"]["hold"] or "up",
     Action.RESET: _parser["CONTROLS"]["reset"] or "f",
-    Action.BACK: "esc",
+    Action.BACK: "escape",
 }
 
 DAS = _parser["GAMEPLAY"].getint("DAS")

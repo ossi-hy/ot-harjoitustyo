@@ -15,7 +15,7 @@ def main():
 
     renderer = Renderer(window, gameboard)
 
-    inputhandler = InputHandler(gameboard)
+    inputhandler = InputHandler(window, gameboard)
 
     start_time = time.perf_counter()
     input_time = time.perf_counter()
