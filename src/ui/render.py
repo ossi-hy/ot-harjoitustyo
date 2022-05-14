@@ -4,7 +4,7 @@ import tkinter as tk
 
 from game.board import Board
 from game.piece import SHAPES
-from config import WINDOW_WIDTH, WINDOW_HEIGHT
+from config import WINDOW_WIDTH, WINDOW_HEIGHT, controls
 
 # Colors of the tetraminos
 COLORS = [
@@ -42,8 +42,6 @@ class Renderer:
         self.last_state = -1
         self.state = State.MAINMENU
 
-        # self._build_grid()
-
     def draw(self) -> bool:
         """The main function to be called every frame. Handles state transitions and calls drawing functions.
 
@@ -52,10 +50,10 @@ class Renderer:
         """
         if self.state == State.MAINMENU:
             if self.last_state != self.state:
-                self._canvas.delete("all")
                 self._draw_mainmenu()
         elif self.state == State.SETTINGS:
-            pass
+            if self.last_state != self.state:
+                self._draw_settings()
         elif self.state == State.GAME:
             if self.last_state != self.state:
                 self._board.reset()
@@ -71,7 +69,9 @@ class Renderer:
         return True
 
     def _draw_mainmenu(self) -> None:
-        """Draws the mainmenu of the program"""
+        """Draws the main menu of the program"""
+        self._canvas.delete("all")
+
         self._canvas.create_text(
             self.width / 2, self.height / 8, text="TETRIS", font=("Arial", 54)
         )
@@ -89,8 +89,8 @@ class Renderer:
             text="Play",
             font=("Arial", 54),
         )
-        self._canvas.tag_bind(play_btn, "<Button-1>", self.click_play)
-        self._canvas.tag_bind(play_txt, "<Button-1>", self.click_play)
+        self._canvas.tag_bind(play_btn, "<Button-1>", self._click_play)
+        self._canvas.tag_bind(play_txt, "<Button-1>", self._click_play)
 
         stn_btn = self._canvas.create_rectangle(
             self.width / 6,
@@ -105,6 +105,8 @@ class Renderer:
             text="Settings",
             font=("Arial", 54),
         )
+        self._canvas.tag_bind(stn_btn, "<Button-1>", self._click_settings)
+        self._canvas.tag_bind(stn_txt, "<Button-1>", self._click_settings)
 
         exit_btn = self._canvas.create_rectangle(
             self.width / 6,
@@ -119,10 +121,23 @@ class Renderer:
             text="Exit",
             font=("Arial", 54),
         )
-        self._canvas.tag_bind(exit_btn, "<Button-1>", self.click_exit)
-        self._canvas.tag_bind(exit_txt, "<Button-1>", self.click_exit)
+        self._canvas.tag_bind(exit_btn, "<Button-1>", self._click_exit)
+        self._canvas.tag_bind(exit_txt, "<Button-1>", self._click_exit)
 
-    def click_play(self, event: tk.Event) -> None:
+    def _draw_settings(self) -> None:
+        self._canvas.delete("all")
+
+        V_PAD = 160
+        for i, (action, key) in enumerate(controls.items()):
+            self._canvas.create_text(
+                self.width / 8,
+                i * (self.height - V_PAD * 2) / 8 + 40,
+                anchor="nw",
+                text=key,
+                font=("Arial", 12),
+            )
+
+    def _click_play(self, event: tk.Event) -> None:
         """Callback function for clicking play button on main menu
 
         Args:
@@ -130,7 +145,15 @@ class Renderer:
         """
         self.state = State.GAME
 
-    def click_exit(self, event: tk.Event) -> None:
+    def _click_settings(self, event: tk.Event) -> None:
+        """Callback function for clicking settings button on main menu
+
+        Args:
+            event (tk.Event): _description_
+        """
+        self.state = State.SETTINGS
+
+    def _click_exit(self, event: tk.Event) -> None:
         """Callback function for clikcing exit button on main menu
 
         Args:

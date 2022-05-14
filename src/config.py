@@ -25,17 +25,21 @@ class Action(Enum):
     BACK = auto()
 
 
-Controls = {
-    Action.LEFT: _parser["CONTROLS"]["move-left"] or "left",
-    Action.RIGHT: _parser["CONTROLS"]["move-right"] or "right",
-    Action.CW: _parser["CONTROLS"]["rotate-cw"] or "d",
-    Action.CCW: _parser["CONTROLS"]["rotate-ccw"] or "a",
-    Action.UPSIDE_DOWN: _parser["CONTROLS"]["rotate-180"] or "s",
-    Action.DROP: _parser["CONTROLS"]["drop"] or "space",
-    Action.HOLD: _parser["CONTROLS"]["hold"] or "up",
-    Action.RESET: _parser["CONTROLS"]["reset"] or "f",
-    Action.BACK: "escape",
+control_names = {
+    Action.LEFT: "move-left",
+    Action.RIGHT: "move-right",
+    Action.CW: "rotate-cw",
+    Action.CCW: "rotate-ccw",
+    Action.UPSIDE_DOWN: "rotate-180",
+    Action.DROP: "drop",
+    Action.HOLD: "hold",
+    Action.RESET: "reset",
 }
+
+controls = {Action.BACK: "escape"}
+
+for action, name in control_names.items():
+    controls[action] = _parser["CONTROLS"][name]
 
 DAS = _parser["GAMEPLAY"].getint("DAS")
 ARR = _parser["GAMEPLAY"].getint("ARR")

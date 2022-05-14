@@ -2,7 +2,7 @@ from __future__ import annotations
 import time
 import tkinter as tk
 from game.board import Board
-from config import Action, Controls, DAS, ARR
+from config import Action, controls, DAS, ARR
 from ui.render import Renderer, State
 
 
@@ -15,7 +15,7 @@ class InputHandler:
 
         self.actions = {}
 
-        for action, key in Controls.items():
+        for action, key in controls.items():
             self.actions[key] = action
 
         self.trigger = {
