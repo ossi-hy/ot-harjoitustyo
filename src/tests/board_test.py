@@ -60,4 +60,26 @@ class TestBoard(unittest.TestCase):
         self.gameboard.rotate(1)
         self.assertEqual(self.gameboard.piece.x_pos, self.gameboard.width-4)
 
+    def test_hold(self):
+        self.assertTrue(self.gameboard.can_hold)
+
+        piece = self.gameboard.piece.piece_id
+        self.gameboard.hold()
+        new_piece = self.gameboard.piece.piece_id
+        self.assertNotEqual(piece, new_piece)
+        self.assertFalse(self.gameboard.can_hold)
+
+        self.gameboard.hold()
+        piece = self.gameboard.piece.piece_id
+        self.assertEqual(new_piece, piece)
+
+        self.gameboard.drop()
+        self.assertTrue(self.gameboard.can_hold)
+
+        self.gameboard.hold()
+        new_piece = self.gameboard.piece.piece_id
+        self.assertNotEqual(piece, new_piece)
+
+        
+
 
