@@ -140,7 +140,12 @@ class Renderer:
 
     def _build_grid(self) -> None:
         """Builds the tetris grid and additional small grid for held piece"""
+        # Clear the grids
+        self.grid = []
+        self.hold_grid = []
+        # Clear the screen
         self._canvas.delete("all")
+
         game_width = self.width / self.GAME_PADDING_RIGHT
         for row in range(self._board.visible_height):
             row_rects = []
