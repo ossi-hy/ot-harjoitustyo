@@ -4,7 +4,7 @@ import tkinter as tk
 
 from game.board import Board
 from game.piece import SHAPES
-from config import WINDOW_WIDTH, WINDOW_HEIGHT, controls
+from config import WINDOW_WIDTH, WINDOW_HEIGHT, control_names, controls
 
 # Colors of the tetraminos
 COLORS = [
@@ -128,12 +128,33 @@ class Renderer:
         self._canvas.delete("all")
 
         V_PAD = 160
-        for i, (action, key) in enumerate(controls.items()):
+        for i, (action, name) in enumerate(control_names.items()):
+            self._canvas.create_rectangle(
+                self.width / 12 - 10,
+                i * (self.height - V_PAD * 2) / 8 + 36,
+                self.width / 12 + 100,
+                i * (self.height - V_PAD * 2) / 8 + 64,
+                fill="white"
+            )
             self._canvas.create_text(
-                self.width / 8,
+                self.width / 12,
                 i * (self.height - V_PAD * 2) / 8 + 40,
                 anchor="nw",
-                text=key,
+                text=name,
+                font=("Arial", 12),
+            )
+            self._canvas.create_rectangle(
+                self.width / 2.5 - 10,
+                i * (self.height - V_PAD * 2) / 8 + 36,
+                self.width / 2.5 + 100,
+                i * (self.height - V_PAD * 2) / 8 + 64,
+                fill="white"
+            )
+            self._canvas.create_text(
+                self.width / 2.5,
+                i * (self.height - V_PAD * 2) / 8 + 40,
+                anchor="nw",
+                text=controls[action],
                 font=("Arial", 12),
             )
 
