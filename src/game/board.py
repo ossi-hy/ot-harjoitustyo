@@ -198,6 +198,8 @@ class Board:
                 self.board[: row + 1] = np.roll(self.board[: row + 1], 1, axis=0)
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
                 self.cleared += 1
+        if self.cleared >= config.LINES:
+            self.over = True
 
     def hold(self):
         """Put the current piece on 'hold' and get a new piece or recover

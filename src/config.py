@@ -49,8 +49,9 @@ def write_control(action: Action, key: str):
 
     controls[action] = key
 
-DAS = _parser["GAMEPLAY"].getint("DAS")
-ARR = _parser["GAMEPLAY"].getint("ARR")
+DAS = _parser["GAMEPLAY"].getint("das")
+ARR = _parser["GAMEPLAY"].getint("arr")
+LINES = _parser["GAMEPLAY"].getint("lines")
 
 SHADOW = _parser["GAMEPLAY"].getboolean("shadow")
 

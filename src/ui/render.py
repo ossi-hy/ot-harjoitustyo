@@ -313,7 +313,7 @@ class Renderer:
         self.clr_txt = self._canvas.create_text(
             0.7 * game_width / self._board.width + game_width,
             self.height / 3,
-            text=f"Cleared lines: {self._board.cleared}/40",
+            text=f"Cleared lines: {self._board.cleared}/{config.LINES}",
             font=("Arial", 12),
             anchor="nw",
         )

@@ -19,10 +19,9 @@ def main():
     renderer = Renderer(window, gameboard, inputhandler)
 
     start_time = time()
-    input_time = time()
+    frametime = 0
     while True:
-        inputhandler.process_inputs(renderer, time() - input_time)
-        input_time = time()
+        inputhandler.process_inputs(renderer, frametime)
         if not renderer.draw():
             break
 
