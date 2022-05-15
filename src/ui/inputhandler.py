@@ -17,14 +17,14 @@ class InputHandler:
         self._window = window
 
         self._board = board
-        self.das_timer = DAS
-        self.arr_timer = ARR
-        self.das_elapsed = False
+        self._das_timer = DAS
+        self._arr_timer = ARR
+        self._das_elapsed = False
 
-        self.actions = {}
+        self._actions = {}
         self._create_actions()
 
-        self.trigger = {
+        self._trigger = {
             Action.LEFT: False,
             Action.RIGHT: False,
             Action.CW: False,
@@ -36,7 +36,7 @@ class InputHandler:
             Action.BACK: False,
         }
 
-        self.pressed = self.trigger.copy()
+        self._pressed = self._trigger.copy()
 
         window.bind("<KeyPress>", self._on_press)
         window.bind("<KeyRelease>", self._on_release)
@@ -44,9 +44,9 @@ class InputHandler:
     def _create_actions(self):
         """Create/update the key->action map
         """
-        self.actions = {}
+        self._actions = {}
         for action, key in controls.items():
-            self.actions[key] = action
+            self._actions[key] = action
 
 
     def _on_press(self, key: tk.Event) -> None:
@@ -56,8 +56,8 @@ class InputHandler:
             key (kb.Key/kb.KeyCode/None): Pressed key
         """
         key = key.keysym.lower()
-        if key in self.actions:
-            self.trigger[self.actions[key]] = True
+        if key in self._actions:
+            self._trigger[self._actions[key]] = True
 
     def _on_release(self, key: tk.Event) -> None:
         """Keyrelease callback function
@@ -66,8 +66,8 @@ class InputHandler:
             key (kb.Key/kb.KeyCode/None): Released key
         """
         key = key.keysym.lower()
-        if key in self.actions:
-            self.trigger[self.actions[key]] = False
+        if key in self._actions:
+            self._trigger[self._actions[key]] = False
 
     def process_inputs(self, renderer: ui.render.Renderer, elapsed: float) -> None:
         """Process inputs since the last frame
@@ -77,20 +77,20 @@ class InputHandler:
             elapsed (float): Time since last time this function was called
         """
         move_keys_pressed = False
-        for action, trigger in self.trigger.items():
+        for action, trigger in self._trigger.items():
             if not trigger:
-                self.pressed[action] = False
+                self._pressed[action] = False
                 continue
             if action == Action.BACK:
                 # Prevent reading immediately again
-                self.trigger[action] = False
+                self._trigger[action] = False
                 if renderer.state == ui.render.State.MAINMENU:
                     renderer.state = ui.render.State.EXIT
                 else:
                     renderer.state = ui.render.State.MAINMENU
                 return
             # Key is already pressed
-            if self.pressed[action]:
+            if self._pressed[action]:
                 # It's a movement key
                 if action in (Action.LEFT, Action.RIGHT):
                     move_keys_pressed = True
@@ -114,12 +114,12 @@ class InputHandler:
                 renderer._reset_gametime()
                 self._board.reset()
 
-            self.pressed[action] = True
+            self._pressed[action] = True
         # Reset DAS and ARR timers when movement keys are lifted
         if not move_keys_pressed:
-            self.das_timer = DAS
-            self.arr_timer = ARR
-            self.das_elapsed = False
+            self._das_timer = DAS
+            self._arr_timer = ARR
+            self._das_elapsed = False
 
     def _move(self, action: Action) -> None:
         """Small helper function to seperate left and right movements
@@ -139,16 +139,16 @@ class InputHandler:
             action (Action): Move left or right
             elapsed (float): Time since input processing was last called
         """
-        if self.das_elapsed:
-            self.arr_timer -= elapsed * 1000
-            if self.arr_timer <= 0:
+        if self._das_elapsed:
+            self._arr_timer -= elapsed * 1000
+            if self._arr_timer <= 0:
                 self._move(action)
-                self.arr_timer = ARR
+                self._arr_timer = ARR
         else:
-            self.das_timer -= elapsed * 1000
-            if self.das_timer <= 0:
+            self._das_timer -= elapsed * 1000
+            if self._das_timer <= 0:
                 self._move(action)
-                self.das_elapsed = True
+                self._das_elapsed = True
 
     def _on_record_press(self, key: tk.Event, renderer: ui.render.Renderer):
         """Keypress callback function when rebinding controls
@@ -159,8 +159,8 @@ class InputHandler:
         """
         key = key.keysym.lower()
 
-        if key in self.actions:
-            if self.actions[key] == Action.BACK:
+        if key in self._actions:
+            if self._actions[key] == Action.BACK:
                 self._window.unbind("<KeyPress>")
                 self._window.bind("<KeyPress>", self._on_press)
                 renderer._draw_settings()

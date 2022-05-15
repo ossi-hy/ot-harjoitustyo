@@ -50,14 +50,14 @@ class Renderer:
         self._canvas = tk.Canvas(self._window, width=self.width, height=self.height)
         self._canvas.pack()
         self._board = board
-        self.grid = []
-        self.hold_grid = []
-        self.last_state = -1
+        self._grid = []
+        self._hold_grid = []
+        self._last_state = -1
         self.state = State.MAINMENU
         self.gametime = 0
         # Game info texts
-        self.clr_txt = None
-        self.tmr_txt = None
+        self._clr_txt = None
+        self._tmr_txt = None
 
     def _reset_gametime(self):
         """Reset gametime. Should be called after reseting the game
@@ -71,13 +71,13 @@ class Renderer:
             bool: Returns False if the state is 'Exit' meaning the window should be closed
         """
         if self.state == State.MAINMENU:
-            if self.last_state != self.state:
+            if self._last_state != self.state:
                 self._draw_mainmenu()
         elif self.state == State.SETTINGS:
-            if self.last_state != self.state:
+            if self._last_state != self.state:
                 self._draw_settings()
         elif self.state == State.GAME:
-            if self.last_state != self.state:
+            if self._last_state != self.state:
                 self._board.reset()
                 self._build_grid()
                 self.gametime = time.time()
@@ -89,12 +89,12 @@ class Renderer:
                 self.state = State.GAME_OVER
                 return True
         elif self.state == State.GAME_OVER:
-            if self.last_state != self.state:
+            if self._last_state != self.state:
                 self._draw_game_over()
         elif self.state == State.EXIT:
             return False
 
-        self.last_state = self.state
+        self._last_state = self.state
 
         self._window.update()
 
@@ -280,8 +280,8 @@ class Renderer:
     def _build_grid(self) -> None:
         """Builds the tetris grid and additional small grid for held piece"""
         # Clear the grids
-        self.grid = []
-        self.hold_grid = []
+        self._grid = []
+        self._hold_grid = []
         # Clear the screen
         self._canvas.delete("all")
 
@@ -299,7 +299,7 @@ class Renderer:
                     fill=color,
                 )
                 row_rects.append(rect)
-            self.grid.append(row_rects)
+            self._grid.append(row_rects)
         for row in range(1, 5):
             row_rects = []
             for col in range(1, 5):
@@ -313,7 +313,7 @@ class Renderer:
                     fill=color,
                 )
                 row_rects.append(rect)
-            self.hold_grid.append(row_rects)
+            self._hold_grid.append(row_rects)
 
     def _draw_board(self) -> None:
         """Draws the current board and held piece"""
@@ -323,7 +323,7 @@ class Renderer:
                 color = "#{:02x}{:02x}{:02x}".format(
                     *COLORS[self._board.get_board_with_piece()[row + offset, col]]
                 )
-                self._canvas.itemconfig(self.grid[row][col], fill=color)
+                self._canvas.itemconfig(self._grid[row][col], fill=color)
         # Draw held piece
         if self._board.hold_id == -1:
             return
@@ -334,20 +334,20 @@ class Renderer:
                     color = "#{:02x}{:02x}{:02x}".format(*COLORS[shape[row, col]])
                 else:
                     color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
-                self._canvas.itemconfig(self.hold_grid[row][col], fill=color)
+                self._canvas.itemconfig(self._hold_grid[row][col], fill=color)
 
     def _draw_game_info(self) -> None:
         """Draw info about lines cleared and time elapsed
         """
         game_width = self.width / self.GAME_PADDING_RIGHT
-        self.clr_txt = self._canvas.create_text(
+        self._clr_txt = self._canvas.create_text(
             0.7 * game_width / self._board.width + game_width,
             self.height / 3,
             text=f"Cleared lines: {self._board.cleared}/{config.LINES}",
             font=("Arial", 12),
             anchor="nw",
         )
-        self.tmr_txt = self._canvas.create_text(
+        self._tmr_txt = self._canvas.create_text(
             0.7 * game_width / self._board.width + game_width,
             self.height / 2,
             text=f"Time: {0.0}s",
@@ -358,8 +358,8 @@ class Renderer:
     def _update_game_info(self) -> None:
         """Update lines cleared and time elapsed texts
         """
-        self._canvas.itemconfig(self.clr_txt, text=f"Cleared lines: {self._board.cleared}/{config.LINES}")
-        self._canvas.itemconfig(self.tmr_txt, text=f"Time: {time.time()-self.gametime:.2f}s",)
+        self._canvas.itemconfig(self._clr_txt, text=f"Cleared lines: {self._board.cleared}/{config.LINES}")
+        self._canvas.itemconfig(self._tmr_txt, text=f"Time: {time.time()-self.gametime:.2f}s",)
 
     def _draw_game_over(self) -> None:
         """Draw the game over screen

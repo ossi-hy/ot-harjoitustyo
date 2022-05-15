@@ -28,7 +28,7 @@ class Board:
         self.cleared = 0 # Number of lines cleared
         self.over = False
 
-        self.pool = PiecePool(seed)
+        self._pool = PiecePool(seed)
         self.new_piece()
 
     def reset(self) -> None:
@@ -47,7 +47,7 @@ class Board:
             piece_id (Optional[int], optional): Id of the next piece.
             Gets it from pool if None. Defaults to None.
         """
-        piece_id = self.pool.next_piece() if piece_id is None else piece_id
+        piece_id = self._pool.next_piece() if piece_id is None else piece_id
         piece_x = 4 - (SHAPES[piece_id - 1].shape[1] + 1) // 2 + 1
         piece_y = 2
         piece_r = 0
