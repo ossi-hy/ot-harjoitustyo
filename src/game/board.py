@@ -24,7 +24,7 @@ class Board:
         self.piece = None
         self.hold_id = -1  # Id of the hold piece
         self.can_hold = True  # Player can only hold once per drop
-        
+
         self.cleared = 0 # Number of lines cleared
         self.over = False
 
@@ -212,4 +212,3 @@ class Board:
             self.new_piece(self.hold_id)
             self.hold_id = piece_id
         self.can_hold = False
-
