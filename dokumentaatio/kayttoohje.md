@@ -23,7 +23,7 @@ Aloitusruudusta voi aloittaa pelin, tai poistua pelistä. Asetusten muttaminen k
 
 ## Peliruutu
 
-![Peliruutu](./Game.png)
+![Peliruutu](./images/Game.png)
 
 Peliruudussa peliä ohjataan asetuksissa määritellyillä näppäimillä. Takaisin aloitusruutun pääsee painamalla 'esc'. Tällä hetkellä pelattava pala näkyy ylälaidassa, ja sitä voi liikutella ja pyörittää. 
 

@@ -2,7 +2,7 @@
 
 ## Rakenne
 
-![Pakkauskaavio](./PackageDiagram.png)
+![Pakkauskaavio](./images/PackageDiagram.png)
 
 Pakkaus *UI* sisältää käyttöliittymästä ja kontrolleista vastaavan ja *Game* pelilogiikasta vastaavan koodin.
 
