@@ -1,6 +1,6 @@
 from __future__ import annotations
 import tkinter as tk
-
+from enum import Enum, auto
 
 from game.board import Board
 from game.piece import SHAPES
@@ -21,11 +21,11 @@ COLORS = [
 ]
 
 
-class State:
-    MAINMENU = 0
-    SETTINGS = 1
-    GAME = 2
-    EXIT = 3
+class State(Enum):
+    MAINMENU = auto()
+    SETTINGS = auto()
+    GAME = auto()
+    EXIT = auto()
 
 
 class Renderer:

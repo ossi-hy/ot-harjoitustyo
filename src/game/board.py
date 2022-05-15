@@ -60,6 +60,16 @@ class Board:
         """
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
         new_board = np.copy(self.board)
+        if (new_board[
+            self.piece.y_pos : self.piece.y_pos + shape.shape[0],
+            self.piece.x_pos
+            + shape_left : self.piece.x_pos
+            + shape.shape[1]
+            - shape_right,
+        ][shape[:, shape_left : shape.shape[1] - shape_right] != 0] != 0).any():
+            print("GAME OVER")
+            self.reset()
+            return self.get_board_with_piece()
         new_board[
             self.piece.y_pos : self.piece.y_pos + shape.shape[0],
             self.piece.x_pos
@@ -76,6 +86,7 @@ class Board:
                 ]
             )
             stripped_shape[stripped_shape != 0] = 8
+            
             new_board[
                 shadow_height : shadow_height + shape.shape[0] - shape_bottom,
                 self.piece.x_pos
@@ -193,5 +204,3 @@ class Board:
             self.hold_id = piece_id
         self.can_hold = False
 
-    def step(self):
-        pass
