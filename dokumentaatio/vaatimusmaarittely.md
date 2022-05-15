@@ -1,6 +1,6 @@
 # Vaatimusmäärittely
 
-Sovellus on remake klassisesta tetris-pelistä. Sovelluksessa on graafinen käyttöliittymä.
+Sovellus on remake klassisesta tetris-pelistä. Sovelluksessa on graafinen käyttöliittymä. Klassiseen tetrikseen eroten palat ei tipu automaattisesti ja tarkoituksena ei ole selviäminen, vaan 20 rivin tyhjennys mahdollisimman nopeasti.
 
 ## Toiminnallisuudet
 - Aloitusruutu, josta voi aloittaa pelin , mennä asetusten valintaruutuun tai poistua sovelluksesta.
