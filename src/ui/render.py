@@ -59,7 +59,7 @@ class Renderer:
         self.clr_txt = None
         self.tmr_txt = None
 
-    def reset_gametime(self):
+    def _reset_gametime(self):
         """Reset gametime. Should be called after reseting the game
         """
         self.gametime = time.time()

@@ -22,7 +22,7 @@ class InputHandler:
         self.das_elapsed = False
 
         self.actions = {}
-        self.create_actions()
+        self._create_actions()
 
         self.trigger = {
             Action.LEFT: False,
@@ -38,10 +38,10 @@ class InputHandler:
 
         self.pressed = self.trigger.copy()
 
-        window.bind("<KeyPress>", self.on_press)
-        window.bind("<KeyRelease>", self.on_release)
+        window.bind("<KeyPress>", self._on_press)
+        window.bind("<KeyRelease>", self._on_release)
 
-    def create_actions(self):
+    def _create_actions(self):
         """Create/update the key->action map
         """
         self.actions = {}
@@ -49,7 +49,7 @@ class InputHandler:
             self.actions[key] = action
 
 
-    def on_press(self, key: tk.Event) -> None:
+    def _on_press(self, key: tk.Event) -> None:
         """Keypress callback function
 
         Args:
@@ -59,7 +59,7 @@ class InputHandler:
         if key in self.actions:
             self.trigger[self.actions[key]] = True
 
-    def on_release(self, key: tk.Event) -> None:
+    def _on_release(self, key: tk.Event) -> None:
         """Keyrelease callback function
 
         Args:
@@ -94,12 +94,12 @@ class InputHandler:
                 # It's a movement key
                 if action in (Action.LEFT, Action.RIGHT):
                     move_keys_pressed = True
-                    self.calculate_das_arr(action, elapsed)
+                    self._calculate_das_arr(action, elapsed)
                 continue
 
             # Key is pressed first time
             if action in (Action.LEFT, Action.RIGHT):
-                self.move(action)
+                self._move(action)
             elif action == Action.CW:
                 self._board.rotate(0)
             elif action == Action.CCW:
@@ -111,7 +111,7 @@ class InputHandler:
             elif action == Action.HOLD:
                 self._board.hold()
             elif action == Action.RESET:
-                renderer.reset_gametime()
+                renderer._reset_gametime()
                 self._board.reset()
 
             self.pressed[action] = True
@@ -121,7 +121,7 @@ class InputHandler:
             self.arr_timer = ARR
             self.das_elapsed = False
 
-    def move(self, action: Action) -> None:
+    def _move(self, action: Action) -> None:
         """Small helper function to seperate left and right movements
 
         Args:
@@ -132,7 +132,7 @@ class InputHandler:
         elif action == Action.RIGHT:
             self._board.move(1)
 
-    def calculate_das_arr(self, action: Action, elapsed: float) -> None:
+    def _calculate_das_arr(self, action: Action, elapsed: float) -> None:
         """Keep track of the das and arr timers, and move piece accordingly
 
         Args:
@@ -142,15 +142,15 @@ class InputHandler:
         if self.das_elapsed:
             self.arr_timer -= elapsed * 1000
             if self.arr_timer <= 0:
-                self.move(action)
+                self._move(action)
                 self.arr_timer = ARR
         else:
             self.das_timer -= elapsed * 1000
             if self.das_timer <= 0:
-                self.move(action)
+                self._move(action)
                 self.das_elapsed = True
 
-    def on_record_press(self, key: tk.Event, renderer: ui.render.Renderer):
+    def _on_record_press(self, key: tk.Event, renderer: ui.render.Renderer):
         """Keypress callback function when rebinding controls
 
         Args:
@@ -162,15 +162,15 @@ class InputHandler:
         if key in self.actions:
             if self.actions[key] == Action.BACK:
                 self._window.unbind("<KeyPress>")
-                self._window.bind("<KeyPress>", self.on_press)
+                self._window.bind("<KeyPress>", self._on_press)
                 renderer._draw_settings()
                 return
 
         write_control(self.recording_action, key)
-        self.create_actions()
+        self._create_actions()
 
         self._window.unbind("<KeyPress>")
-        self._window.bind("<KeyPress>", self.on_press)
+        self._window.bind("<KeyPress>", self._on_press)
 
         renderer._draw_settings()
 
@@ -185,4 +185,4 @@ class InputHandler:
 
         self.recording_action = action
 
-        self._window.bind("<KeyPress>", lambda x, y=renderer: self.on_record_press(x, y))
+        self._window.bind("<KeyPress>", lambda x, y=renderer: self._on_record_press(x, y))
