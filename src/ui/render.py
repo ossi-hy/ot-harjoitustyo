@@ -46,6 +46,8 @@ class Renderer:
         self.last_state = -1
         self.state = State.MAINMENU
 
+        self.clr_txt = None
+
     def draw(self) -> bool:
         """The main function to be called every frame. Handles state transitions and calls drawing functions.
 
@@ -63,6 +65,7 @@ class Renderer:
                 self._board.reset()
                 self._build_grid()
             self._draw_board()
+            self._draw_cleared_lines()
         elif self.state == State.EXIT:
             return False
 
@@ -192,7 +195,7 @@ class Renderer:
         shd_rec = self._canvas.create_rectangle(
             self.width / 2.5 - 10,
             10 * (self.height - V_PAD * 2) / 8 + 36,
-            self.width / 2.5 + 100, 
+            self.width / 2.5 + 100,
             10 * (self.height - V_PAD * 2) / 8 + 64,
             fill="white",
         )
@@ -285,6 +288,7 @@ class Renderer:
                     *COLORS[self._board.get_board_with_piece()[row + offset, col]]
                 )
                 self._canvas.itemconfig(self.grid[row][col], fill=color)
+        # Draw held piece
         if self._board.hold_id == -1:
             return
         shape = SHAPES[self._board.hold_id - 1]
@@ -295,3 +299,14 @@ class Renderer:
                 else:
                     color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
                 self._canvas.itemconfig(self.hold_grid[row][col], fill=color)
+
+    def _draw_cleared_lines(self) -> None:
+        self._canvas.delete(self.clr_txt)
+        game_width = self.width / self.GAME_PADDING_RIGHT
+        self.clr_txt = self._canvas.create_text(
+            0.7 * game_width / self._board.width + game_width,
+            self.height / 3,
+            text=f"Cleared lines: {self._board.cleared}/40",
+            font=("Arial", 12),
+            anchor="nw"
+        )

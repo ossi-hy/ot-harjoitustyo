@@ -24,6 +24,8 @@ class Board:
         self.piece = None
         self.hold_id = -1  # Id of the hold piece
         self.can_hold = True  # Player can only hold once per drop
+        
+        self.cleared = 0 # Number of lines cleared
 
         self.pool = PiecePool(seed)
         self.new_piece()
@@ -33,6 +35,7 @@ class Board:
         self.board = np.zeros((self.height, self.width), dtype=np.uint8)
         self.hold_id = -1
         self.can_hold = True
+        self.cleared = 0
         self.new_piece()
 
     def new_piece(self, piece_id: Optional[int] = None) -> None:
@@ -174,6 +177,7 @@ class Board:
             while (self.board[row] != 0).all():
                 self.board[: row + 1] = np.roll(self.board[: row + 1], 1, axis=0)
                 self.board[0] = np.zeros(self.width, dtype=np.uint8)
+                self.cleared += 1
 
     def hold(self):
         """Put the current piece on 'hold' and get a new piece or recover
