@@ -34,6 +34,7 @@ classDiagram
     Board "1" -- "1" PiecePool
     Renderer "*" -- "1" Board
     InputHandler "*" -- "1" Board
+    Renderer "*" -- "1" InputHandler
 
 ```
 
