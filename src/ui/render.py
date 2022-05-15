@@ -48,7 +48,9 @@ class Renderer:
         self.last_state = -1
         self.state = State.MAINMENU
         self.gametime = 0
+        # Game info texts
         self.clr_txt = None
+        self.tmr_txt = None
 
     def reset_gametime(self):
         self.gametime = time.time()
@@ -70,8 +72,9 @@ class Renderer:
                 self._board.reset()
                 self._build_grid()
                 self.gametime = time.time()
+                self._draw_game_info()
             self._draw_board()
-            self._draw_cleared_lines()
+            self._update_game_info()
             if self._board.over:
                 self.gametime = time.time() - self.gametime
                 self.state = State.GAME_OVER
@@ -313,8 +316,7 @@ class Renderer:
                     color = "#{:02x}{:02x}{:02x}".format(*COLORS[0])
                 self._canvas.itemconfig(self.hold_grid[row][col], fill=color)
 
-    def _draw_cleared_lines(self) -> None:
-        self._canvas.delete(self.clr_txt)
+    def _draw_game_info(self) -> None:
         game_width = self.width / self.GAME_PADDING_RIGHT
         self.clr_txt = self._canvas.create_text(
             0.7 * game_width / self._board.width + game_width,
@@ -323,6 +325,17 @@ class Renderer:
             font=("Arial", 12),
             anchor="nw",
         )
+        self.tmr_txt = self._canvas.create_text(
+            0.7 * game_width / self._board.width + game_width,
+            self.height / 2,
+            text=f"Time: {0.0}s",
+            font=("Arial", 12),
+            anchor="nw"
+        )
+
+    def _update_game_info(self) -> None:
+        self._canvas.itemconfig(self.clr_txt, text=f"Cleared lines: {self._board.cleared}/{config.LINES}")
+        self._canvas.itemconfig(self.tmr_txt, text=f"Time: {time.time()-self.gametime:.2f}s",)
 
     def _draw_game_over(self) -> None:
         """Draw the game over screen
