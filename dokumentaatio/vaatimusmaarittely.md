@@ -3,11 +3,13 @@
 Sovellus on remake klassisesta tetris-pelistä. Sovelluksessa on graafinen käyttöliittymä.
 
 ## Toiminnallisuudet
-- Aloitusruutu, josta voi aloittaa pelin [tehty], mennä asetusten valintaruutuun tai poistua sovelluksesta [tehty].
-- Pelissä käyttäjä ohjaa tetrominoja näppäimistöllä [tehty].
-- Tetrominot toimivat loogisesti kaikissa tilanteissa [tehty] ja rivit katoavat kun ne täyttyvät [tehty]
-- Peli päättyy kun palat osuvat kattoon
-- Asetuksista käyttäjä voi vaihtaa kontrolleja
+- Aloitusruutu, josta voi aloittaa pelin , mennä asetusten valintaruutuun tai poistua sovelluksesta.
+- Pelissä käyttäjä ohjaa tetrominoja näppäimistöllä.
+- Tetrominot toimivat loogisesti kaikissa tilanteissa ja rivit katoavat kun ne täyttyvät
+- Peli päättyy kun palat osuvat tiputettavaan palaan
+- Pelissä on mahdollisuus vaihtaa pelattavaa palaa (hold) kerran jokaista tiputtetua palaa kohden
+- Pelin tarkoitus on tyhjentää 20 riviä mahdollisimman nopeasti
+- Asetuksista käyttäjä voi vaihtaa kontrolleja ja palan varjon pois päältä
 
 ## Jatkokehitysideat
 - Pelatun erän tallentava *replay*-ominaisuus
