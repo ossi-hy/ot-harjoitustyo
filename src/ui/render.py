@@ -1,5 +1,6 @@
 from __future__ import annotations
 import tkinter as tk
+import time
 from enum import Enum, auto
 
 from game.board import Board
@@ -46,7 +47,7 @@ class Renderer:
         self.hold_grid = []
         self.last_state = -1
         self.state = State.MAINMENU
-
+        self.gametime = 0
         self.clr_txt = None
 
     def draw(self) -> bool:
@@ -65,9 +66,11 @@ class Renderer:
             if self.last_state != self.state:
                 self._board.reset()
                 self._build_grid()
+                self.gametime = time.time()
             self._draw_board()
             self._draw_cleared_lines()
             if self._board.over:
+                self.gametime = time.time() - self.gametime
                 self.state = State.GAME_OVER
                 return True
         elif self.state == State.GAME_OVER:
@@ -319,7 +322,18 @@ class Renderer:
         )
 
     def _draw_game_over(self) -> None:
+        """Draw the game over screen
+        """
         self._canvas.delete("all")
         self._canvas.create_text(
-            self.width / 2, self.height / 2, text="Game Over!", font=("Arial", 36)
+            self.width / 2, self.height / 2 - 100, text="Game Over!", font=("Arial", 36)
+        )
+        self._canvas.create_text(
+            self.width / 2, self.height /2, text=f"Time: {self.gametime:.2f}s", font=("Arial", 24)
+        )
+        self._canvas.create_text(
+            self.width / 2,
+            self.height / 2 + 100,
+            text=f"Lines cleared: {self._board.cleared}/{config.LINES}",
+            font=("Arial", 24),
         )
