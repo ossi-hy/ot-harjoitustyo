@@ -4,6 +4,7 @@
 - DAS (int): automaattisen liikkumisen alkamisen viive millisekunneissa
 - ARR (int): automaattisen liikkumisen toiston viive millisekunneissa
 - shadow (bool): maassa näkyvä varjo, joka näyttää mihin pala putoaa
+- lines (int): tyhjennettävien rivien määrä pelin läpäisyksi
 
 ## Grafiikkasetukset
 - width (int): peli-ikkunan leveys

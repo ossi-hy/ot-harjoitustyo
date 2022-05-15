@@ -24,3 +24,9 @@
 - Lisätty testien kattavuutta
 - Vaihdettu näppäimistön painalluksien lukemiseen tarkoittetu kirjasto sellaiseen, joka ei tarvitse admin oikeuksia
 - Pieniä tilojen vaihtoon liittyviä logiikkamuutoksia
+
+## Viikko 7
+- Lisätty pelin päättyminen
+- Lisätty täysien rivien laskeminen
+- Lisätty ajastin
+- Lisätty asetusvalikko
