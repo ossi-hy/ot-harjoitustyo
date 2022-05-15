@@ -35,8 +35,6 @@ class InputHandler:
         window.bind("<KeyPress>", self.on_press)
         window.bind("<KeyRelease>", self.on_release)
 
-        self.input_time = time.perf_counter()
-
     def create_actions(self):
         self.actions = {}
         for action, key in controls.items():
@@ -105,6 +103,7 @@ class InputHandler:
             elif action == Action.HOLD:
                 self._board.hold()
             elif action == Action.RESET:
+                renderer.reset_gametime()
                 self._board.reset()
 
             self.pressed[action] = True

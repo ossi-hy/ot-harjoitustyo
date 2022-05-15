@@ -50,6 +50,9 @@ class Renderer:
         self.gametime = 0
         self.clr_txt = None
 
+    def reset_gametime(self):
+        self.gametime = time.time()
+
     def draw(self) -> bool:
         """The main function to be called every frame. Handles state transitions and calls drawing functions.
 
