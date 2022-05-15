@@ -4,18 +4,20 @@
 
 [Kayttöohje](./dokumentaatio/kayttoohje.md)
 
-[Vaatimusmäärittely](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+[Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 
-[Arkkitehtuuri](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+[Arkkitehtuuri](./dokumentaatio/arkkitehtuuri.md)
 
-[Tuntikirjanpito](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
+[Testausdokumentti](./dokumentaatio/testaus.md)
 
-[Changelog](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/dokumentaatio/changelog.md)
+[Tuntikirjanpito](./dokumentaatio/tuntikirjanpito.md)
+
+[Changelog](./dokumentaatio/changelog.md)
 
 
 ## Asennus
 
-[Uusin release](https://github.com/ossi-hy/ot-harjoitustyo/releases/tag/viikko6)
+[Uusin release](https://github.com/ossi-hy/ot-harjoitustyo/releases/tag/viikko7)
 
 Asenna riippuvuudet
 ```bash
@@ -27,9 +29,6 @@ Käynnistä sovellus
 $ poetry run invoke start
 ```
 
-Asetukset sijaitsevat tiedostossa `config\settings.ini`.
-Eri asetusten selitykset [täällä](https://github.com/ossi-hy/ot-harjoitustyo/blob/master/config/README.md).
-
 ## Testaus
 Aja testit
 ```bash
@@ -40,7 +39,7 @@ Muodosta koodikattavuus
 ```bash
 $ poetry run invoke coverage-report
 ```
-Kattavuus luodaan kansioon *htmlcov*
+Kattavuus löytyy kansiosta *htmlcov*. Sen näkee avaamalla tiedoston `index.html`.
 
 ## Muut
 Aja pylint
