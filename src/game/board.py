@@ -69,7 +69,6 @@ class Board:
             + shape.shape[1]
             - shape_right,
         ][shape[:, shape_left : shape.shape[1] - shape_right] != 0] != 0).any():
-            print("GAME OVER")
             self.over = True
             return new_board
         new_board[
@@ -78,9 +77,11 @@ class Board:
             + shape_left : self.piece.x_pos
             + shape.shape[1]
             - shape_right,
-        ] = shape[:, shape_left : shape.shape[1] - shape_right]
+        ] += shape[:, shape_left : shape.shape[1] - shape_right]
         if config.SHADOW:
             shadow_height = self.get_drop_height()
+            if shadow_height == self.piece.y_pos:
+                return new_board
             stripped_shape = np.copy(
                 shape[
                     : shape.shape[0] - shape_bottom,
@@ -88,14 +89,20 @@ class Board:
                 ]
             )
             stripped_shape[stripped_shape != 0] = 8
-            
-            new_board[
+            if (new_board[
                 shadow_height : shadow_height + shape.shape[0] - shape_bottom,
                 self.piece.x_pos
                 + shape_left : self.piece.x_pos
                 + shape.shape[1]
                 - shape_right,
-            ] += stripped_shape
+            ][stripped_shape != 0] == 0).all():
+                new_board[
+                    shadow_height : shadow_height + shape.shape[0] - shape_bottom,
+                    self.piece.x_pos
+                    + shape_left : self.piece.x_pos
+                    + shape.shape[1]
+                    - shape_right,
+                ] += stripped_shape
         return new_board
 
     def move(self, direction: int) -> None:
