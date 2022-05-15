@@ -17,7 +17,7 @@
 
 ## Asennus
 
-[Uusin release](https://github.com/ossi-hy/ot-harjoitustyo/releases/tag/viikko7)
+[Uusin release](https://github.com/ossi-hy/ot-harjoitustyo/releases/tag/loppupalautus)
 
 Asenna riippuvuudet
 ```bash
