@@ -1,6 +1,7 @@
 from __future__ import annotations
 import numpy as np
 
+# All 7 tetrominos
 SHAPES = [
     np.array([[0, 1, 0], [1, 1, 1], [0, 0, 0]], dtype=np.uint8),
     np.array([[0, 2, 2], [2, 2, 0], [0, 0, 0]], dtype=np.uint8),
@@ -14,6 +15,14 @@ SHAPES = [
 
 class Piece:
     def __init__(self, piece_id: int, x_pos: int, y_pos: int, rot: int) -> None:
+        """Create piece object which is used to hold additional info about location and rotation
+
+        Args:
+            piece_id (int): ID indicating the tetromino
+            x_pos (int): Horizontal position of the piece
+            y_pos (int): Vertical position of the piece
+            rot (int): Rotation of the piece
+        """
         self.piece_id = piece_id
         self.x_pos = x_pos
         self.y_pos = y_pos

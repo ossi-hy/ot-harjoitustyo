@@ -34,7 +34,7 @@ class TestBoard(unittest.TestCase):
     def test_clear_line(self):
         self.gameboard.board = np.zeros((self.gameboard.height, self.gameboard.width), np.uint8)
         self.gameboard.board[-1,:] = 1
-        self.gameboard.clear_lines()
+        self.gameboard._clear_lines()
         self.assertTrue(
             np.array_equal(
                 self.gameboard.board,

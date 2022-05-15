@@ -8,7 +8,7 @@ from game.piece import SHAPES
 import ui.inputhandler
 import config
 
-# Colors of the tetraminos
+# Colors of the tetrominos
 COLORS = [
     (10, 10, 10),
     (180, 0, 255),
@@ -21,7 +21,7 @@ COLORS = [
     (100, 100, 100),
 ]
 
-
+# Possible states of the game
 class State(Enum):
     MAINMENU = auto()
     SETTINGS = auto()
@@ -36,6 +36,13 @@ class Renderer:
     def __init__(
         self, window: tk.Tk, board: Board, inputhandler: ui.inputhandler.InputHandler
     ) -> None:
+        """Creates renderer to draw all the menus and game on the window
+
+        Args:
+            window (tk.Tk): window to be drawn to
+            board (Board): board to draw when playing the game
+            inputhandler (ui.inputhandler.InputHandler): inputhandler for the given window
+        """
         self._window = window
         self._inputhandler = inputhandler
         self.width = config.WINDOW_WIDTH
@@ -53,6 +60,8 @@ class Renderer:
         self.tmr_txt = None
 
     def reset_gametime(self):
+        """Reset gametime. Should be called after reseting the game
+        """
         self.gametime = time.time()
 
     def draw(self) -> bool:
@@ -242,10 +251,21 @@ class Renderer:
         self.state = State.SETTINGS
 
     def _click_bind(self, event: tk.Event, action: config.Action):
+        """Callback function for clicking any key to rebind
+
+        Args:
+            event (tk.Event): _description_
+            action (config.Action): Action to be rebound
+        """
         self._inputhandler.record_key(action, self)
         self._draw_settings(action)
 
     def _click_shadowtoggle(self, event: tk.Event):
+        """Callback function to be called when user clicked to toggle the shadow
+
+        Args:
+            event (tk.Event): _description_
+        """
         config.toggle_shadow()
         self._draw_settings()
 
@@ -317,6 +337,8 @@ class Renderer:
                 self._canvas.itemconfig(self.hold_grid[row][col], fill=color)
 
     def _draw_game_info(self) -> None:
+        """Draw info about lines cleared and time elapsed
+        """
         game_width = self.width / self.GAME_PADDING_RIGHT
         self.clr_txt = self._canvas.create_text(
             0.7 * game_width / self._board.width + game_width,
@@ -334,6 +356,8 @@ class Renderer:
         )
 
     def _update_game_info(self) -> None:
+        """Update lines cleared and time elapsed texts
+        """
         self._canvas.itemconfig(self.clr_txt, text=f"Cleared lines: {self._board.cleared}/{config.LINES}")
         self._canvas.itemconfig(self.tmr_txt, text=f"Time: {time.time()-self.gametime:.2f}s",)
 

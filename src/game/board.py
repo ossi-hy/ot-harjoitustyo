@@ -79,7 +79,7 @@ class Board:
             - shape_right,
         ] += shape[:, shape_left : shape.shape[1] - shape_right]
         if config.SHADOW:
-            shadow_height = self.get_drop_height()
+            shadow_height = self._get_drop_height()
             if shadow_height == self.piece.y_pos:
                 return new_board
             stripped_shape = np.copy(
@@ -147,12 +147,14 @@ class Board:
             )
 
     def drop(self) -> None:
+        """Drop the currently played piece onto the board and get a new piece
+        """
         shape, shape_left, shape_right, shape_bottom = self.piece.get_shape()
         strip_shape = shape[
             : shape.shape[1] - shape_bottom,
             shape_left : shape.shape[1] - shape_right,
         ]
-        drop_height = self.get_drop_height()
+        drop_height = self._get_drop_height()
         self.board[
             drop_height : drop_height + strip_shape.shape[0],
             self.piece.x_pos
@@ -161,12 +163,12 @@ class Board:
             - shape_right,
         ] += strip_shape
 
-        self.clear_lines()
+        self._clear_lines()
 
         self.new_piece()
         self.can_hold = True
 
-    def get_drop_height(self) -> int:
+    def _get_drop_height(self) -> int:
         """Get the result height of the piece if it was dropped at the current column
 
         Returns:
@@ -191,7 +193,7 @@ class Board:
                 return row - 1
         return self.height - shape.shape[0] + shape_bottom
 
-    def clear_lines(self) -> None:
+    def _clear_lines(self) -> None:
         """Clear the complete lines"""
         for row in range(self.height - 1, -1, -1):
             while (self.board[row] != 0).all():

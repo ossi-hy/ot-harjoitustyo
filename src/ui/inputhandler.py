@@ -8,6 +8,12 @@ import ui.render
 
 class InputHandler:
     def __init__(self, window: tk.Tk, board: Board) -> None:
+        """Inputhandler handles keyboard inputs
+
+        Args:
+            window (tk.Tk): Window to get inputs from
+            board (Board): Board that is currently being played on
+        """
         self._window = window
 
         self._board = board
@@ -36,6 +42,8 @@ class InputHandler:
         window.bind("<KeyRelease>", self.on_release)
 
     def create_actions(self):
+        """Create/update the key->action map
+        """
         self.actions = {}
         for action, key in controls.items():
             self.actions[key] = action
@@ -143,6 +151,12 @@ class InputHandler:
                 self.das_elapsed = True
 
     def on_record_press(self, key: tk.Event, renderer: ui.render.Renderer):
+        """Keypress callback function when rebinding controls
+
+        Args:
+            key (tk.Event): Key being pressed
+            renderer (ui.render.Renderer): renderer to redraw settings menu
+        """
         key = key.keysym.lower()
 
         if key in self.actions:
@@ -161,6 +175,12 @@ class InputHandler:
         renderer._draw_settings()
 
     def record_key(self, action: Action, renderer: ui.render.Renderer):
+        """Starts listening for key rebinding
+
+        Args:
+            action (Action): Action to rebind
+            renderer (ui.render.Renderer): renderer to redraw settings menu
+        """
         self._window.unbind("<KeyPress>")
 
         self.recording_action = action

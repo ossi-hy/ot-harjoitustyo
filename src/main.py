@@ -8,6 +8,8 @@ from ui.inputhandler import InputHandler
 
 
 def main():
+    """Entry point of the program
+    """
     gameboard = Board()
 
     # Create window

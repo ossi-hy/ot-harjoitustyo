@@ -43,6 +43,12 @@ for action, name in control_names.items():
     controls[action] = _parser["CONTROLS"][name]
 
 def write_control(action: Action, key: str):
+    """Overrides new key in the config file
+
+    Args:
+        action (Action): Action to replace key for
+        key (str): new key as str
+    """
     _parser["CONTROLS"][control_names[action]] = key
     with open(_filepath, 'w', encoding="utf-8") as configfile:
         _parser.write(configfile)
@@ -55,7 +61,9 @@ LINES = _parser["GAMEPLAY"].getint("lines")
 
 SHADOW = _parser["GAMEPLAY"].getboolean("shadow")
 
-def toggle_shadow():
+def toggle_shadow() -> None:
+    """Toggle shadow and write it to config file
+    """
     global SHADOW
     SHADOW = not SHADOW
     _parser["GAMEPLAY"]["shadow"] = 'true' if SHADOW else 'false'
