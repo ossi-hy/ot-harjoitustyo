@@ -26,6 +26,7 @@ class Board:
         self.can_hold = True  # Player can only hold once per drop
         
         self.cleared = 0 # Number of lines cleared
+        self.over = False
 
         self.pool = PiecePool(seed)
         self.new_piece()
@@ -36,6 +37,7 @@ class Board:
         self.hold_id = -1
         self.can_hold = True
         self.cleared = 0
+        self.over = False
         self.new_piece()
 
     def new_piece(self, piece_id: Optional[int] = None) -> None:
@@ -68,8 +70,8 @@ class Board:
             - shape_right,
         ][shape[:, shape_left : shape.shape[1] - shape_right] != 0] != 0).any():
             print("GAME OVER")
-            self.reset()
-            return self.get_board_with_piece()
+            self.over = True
+            return new_board
         new_board[
             self.piece.y_pos : self.piece.y_pos + shape.shape[0],
             self.piece.x_pos

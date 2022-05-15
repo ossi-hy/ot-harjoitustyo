@@ -25,6 +25,7 @@ class State(Enum):
     MAINMENU = auto()
     SETTINGS = auto()
     GAME = auto()
+    GAME_OVER = auto()
     EXIT = auto()
 
 
@@ -66,6 +67,12 @@ class Renderer:
                 self._build_grid()
             self._draw_board()
             self._draw_cleared_lines()
+            if self._board.over:
+                self.state = State.GAME_OVER
+                return True
+        elif self.state == State.GAME_OVER:
+            if self.last_state != self.state:
+                self._draw_game_over()
         elif self.state == State.EXIT:
             return False
 
@@ -308,5 +315,11 @@ class Renderer:
             self.height / 3,
             text=f"Cleared lines: {self._board.cleared}/40",
             font=("Arial", 12),
-            anchor="nw"
+            anchor="nw",
+        )
+
+    def _draw_game_over(self) -> None:
+        self._canvas.delete("all")
+        self._canvas.create_text(
+            self.width / 2, self.height / 2, text="Game Over!", font=("Arial", 36)
         )
